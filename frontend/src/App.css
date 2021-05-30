@@ -1,0 +1,276 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+
+/* @itsbohara */
+
+:root {
+  --clr-primary: #5f8aa1;
+  --clr-color-title: #5dc8c9;
+  --clr-btn-primary: #005a8a;
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+  /* background: #222831; */
+  background: #fff;
+}
+
+/*  */
+.home-c {
+  position: relative;
+}
+
+main {
+  padding-top: 5rem;
+  background: white;
+}
+
+.home-c .booking-form {
+  position: absolute;
+  background: rgba(229, 229, 229, 0.81);
+  border-radius: 8px;
+  bottom: -1rem;
+  right: 3rem;
+  color: #004468;
+  width: 25%;
+  font-weight: bold;
+}
+
+@media (max-width: 992px) {
+  .home-c {
+    height: auto !important;
+  }
+  .home-c .booking-form {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-top: 2rem;
+  }
+
+  .carousel-item img {
+    max-height: 300px;
+  }
+}
+
+.home-c .booking-form input {
+  background: transparent;
+  border-bottom: 1px solid #000;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+}
+.home-c .booking-form input:focus {
+  box-shadow: none;
+  border-bottom: 2px solid var(--clr-primary);
+}
+
+.home-c .btn-book {
+  background-color: var(--clr-primary);
+}
+
+/*  */
+.carousel-control-prev,
+.carousel-control-next {
+  display: none;
+}
+
+.carousel-indicators li {
+  position: relative;
+  flex: 0 1 auto;
+  width: 30px;
+  height: 4px;
+  border-radius: 4px;
+  margin-right: 3px;
+  margin-left: 3px;
+  text-indent: -999px;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.carousel-indicators .active {
+  background-color: #005a8a;
+}
+
+.carousel-item {
+  /* transition: transform .3s ease; */
+  transition: none;
+  /* margin-right: 100%; */
+}
+.carousel-item img {
+  object-fit: cover;
+}
+
+.home-c,
+.about-us {
+  background: #222831;
+}
+.about-us h2 {
+  color: var(--clr-color-title);
+}
+.section-why {
+  position: relative;
+}
+.section-why::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.7;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  background-image: url("./images/image-3.png");
+}
+
+.featuresList {
+  counter-reset: num;
+}
+.featuresList div {
+  position: relative !important;
+}
+
+.featuresList div::before {
+  counter-increment: num;
+  content: counter(num);
+  border-radius: 50%;
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  left: -2.5rem;
+  font-size: 1.5rem;
+  line-height: 1.2rem;
+  background: white;
+  color: #d1002c;
+  text-align: center;
+  border: 4px #d1002c solid;
+}
+
+.featuresList p {
+  color: #004468 !important;
+}
+
+.text-color-1 {
+  color: #005a8a;
+}
+.section-why p {
+  color: #464646;
+  font-weight: 400;
+}
+
+.our-works .btn {
+  background-color: var(--clr-primary);
+}
+
+.clients a {
+  font-size: 1.2rem;
+  color: var(--clr-primary);
+}
+
+.slick-next:before,
+.slick-prev:before {
+  color: #5f8aa1 !important;
+}
+
+@media (max-width: 768px) {
+  .clients .slick-prev {
+    left: 0px;
+  }
+  .clients .slick-next {
+    right: 15px;
+  }
+}
+
+/* footer */
+
+footer {
+  background: #004468;
+}
+
+footer .brand-text {
+  color: var(--clr-primary);
+}
+
+footer i {
+  color: #5dc8c9;
+}
+
+.links_ {
+  list-style: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.links_ a {
+  color: white;
+  text-decoration: none;
+}
+.links_ a::before {
+  color: #000;
+  font-weight: bold;
+  position: absolute;
+  left: -1rem;
+  content: ">";
+  margin-right: 0.35rem;
+}
+footer .social_ a i {
+  color: white;
+  font-size: 1.4rem;
+  margin-right: 0.3rem;
+}
+
+/*  works page */
+ul.pagination {
+  justify-content: center;
+  gap: 0.3rem;
+}
+ul.pagination li:first-child .page-link,
+ul.pagination li:last-child .page-link {
+  border: none;
+}
+ul.pagination li {
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%), inset 0 -1px 0 rgb(0 0 0 / 15%);
+}
+
+/*   */
+
+.modal-header .close {
+  padding: 0 0 0.5rem 0;
+  margin: 0;
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  font-size: 2rem;
+  color: #000;
+  border: 0;
+  border-radius: 0.25rem;
+  opacity: 0.5;
+}
+
+.modal-content {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.modal-content input {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+}
+.modal-content input:focus {
+
+  box-shadow: none;
+  border-bottom: 2px solid var(--clr-primary);
+}
+
+.modal_btn {
+  background-color: var(--clr-btn-primary);
+  color: white;
+  border: 0;
+  box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
+}

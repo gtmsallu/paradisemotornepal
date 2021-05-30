@@ -1,0 +1,50 @@
+
+/* header */
+header {
+    position: fixed;
+    background: #222831;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%), inset 0 -1px 0 rgb(0 0 0 / 15%);
+  }
+  
+  header .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+  
+  header .navbar-nav .nav-link a {
+    color: #f8f9fa;
+    text-decoration: none;
+  }
+  
+  header .navbar-nav .nav-link a.active {
+    color: var(--clr-color-title);
+    /* text-decoration: underline; */
+  }
+  
+  .brand img {
+    height: 50px;
+  }
+  
+  .brand-text {
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: white;
+  }
+  
+  .brand-text span {
+    display: block;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+  
+  .link-white {
+    color: white;
+  }
+  
+  .account-btn,
+  .account-btn:hover {
+    color: var(--clr-color-title);
+  }
+  .about-us h2 {
+    color: var(--clr-color-title);
+  }
+  
