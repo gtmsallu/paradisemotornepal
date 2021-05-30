@@ -1,0 +1,57 @@
+.aap {
+    /* display: flex; */
+}
+
+.admin_header_ {
+    left: 260px;
+    right: 0;
+    box-shadow: 3px 1px 6px 0 rgb(32 33 36 / 28%);
+}
+
+.account-btn_ {
+    background-color: var(--clr-btn-primary);
+}
+.account-btn_::after {
+    display: none;
+}
+
+.account__ .dropdown-menu {
+    padding-top: 1rem;
+    border: 0;
+    box-shadow: 0 0 35px 0 rgb(154 161 171 / 15%);
+}
+
+/* sidebar */
+
+.a_sidebar {
+    position: fixed;
+    height: 100%;
+    box-shadow: 0 1px 6px 0 rgb(32 33 36 / 28%);
+    z-index: 1;
+}
+
+.content-page {
+    margin-left: 260px;
+    overflow: hidden;
+    padding: 6rem 12px 65px;
+    min-height: 100vh;
+}
+
+.btn-rounded {
+    border-radius: 2em;
+}
+
+table th, table td {
+    color: #6c757d;
+}
+
+
+.admin_footer {
+    background: whitesmoke;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 260px;
+    right: 0;
+    z-index: 3;
+}
