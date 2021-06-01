@@ -3,11 +3,11 @@ const dotenv = require("dotenv");
 var cookieParser = require("cookie-parser");
 const app = express();
 dotenv.config({ path: "./config.env" });
+app.use(cookieParser());
+app.use(express.json());
 require("./db/conn");
 
-app.use(express.json());
 app.use(require("./router/auth"));
-app.use(cookieParser());
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {

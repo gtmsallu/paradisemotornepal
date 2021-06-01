@@ -114,12 +114,13 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/logout", (req, res) => {
+router.post("/logout", async (req, res) => {
   res.clearCookie("jwtoken", { path: "/" });
   res.status(200).json("Admin logged out");
 });
 
-router.get("/admin", authenticate, (req, res) => {
+router.get("/admin", authenticate, async (req, res) => {
   res.send(req.rootAdmin);
+  console.log(req.rootAdmin);
 });
 module.exports = router;

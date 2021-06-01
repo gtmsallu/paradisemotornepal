@@ -14,19 +14,22 @@ const adminPage=async()=>{
           method: "GET",
           headers: {
             Accept: "application/json",
-            "Content-type": "application/json",
+            "Content-Type": "application/json",
           },
           credentials: "include",
         });
-        const data = await res.json;
+        const data = await res.json();
         console.log(data);
         if (!res.status === 200) {
           window.alert("no token provided");
-          history.push("/")
+          
+        }
+        else{
+            history.push("/admin")
         }
       } catch (error) {
         console.log(error);
-        history.push("/admin");
+        history.push("/");
       }
     
 };
