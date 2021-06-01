@@ -8,6 +8,9 @@ import { Modal } from 'react-bootstrap';
 
 const AdminHeader = () => {
 
+const [oldEmail, setOldEmail] = useState("");
+const [newEmail, setNewEmail] = useState("");
+const [reEmail, setReEmail] = useState("");
 
 
 
@@ -30,7 +33,30 @@ if(!data || res.status===400){
    }
 
 
-  
+   const adminProfile=async()=>{
+        try {
+          const res = await fetch("/getadmindata", {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+            },
+          });
+          const data = await res.json();
+          setOldEmail( data.email);
+    
+          if (!res.status === 200) {
+            const error = new Error(res.error);
+            throw error;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+   
+
+  useEffect(() => {
+    adminProfile();
+  }, [])
 
 
 
@@ -88,16 +114,16 @@ if(!data || res.status===400){
                     <form>
                         <div className="form-group">
                             <label htmlFor="inputEmail">Enter your old Email</label>
-                            <input type="email" id="inputEmail" className="form-control" placeholder="someone@example.com" />
+                            <input type="email" id="inputEmail" className="form-control" name="oldEmail" value={oldEmail} onChange={(e)=>setOldEmail(e.target.value)} placeholder="someone@example.com" required />
                         </div>
 
                         <div className="form-group mt-3">
                             <label htmlFor="inputPassword">Enter your new Email</label>
-                            <input type="email" id="inputPassword" className="form-control" placeholder="newmail@example.com" />
+                            <input type="email" id="inputPassword" className="form-control" name="newEmail" value={newEmail} onChange={(e)=>setNewEmail(e.target.value)} placeholder="newmail@example.com" required />
                         </div>
                         <div className="form-group mt-3">
                             <label htmlFor="inputPassword">Confirm your new Email</label>
-                            <input type="email" id="inputPassword" className="form-control" placeholder="newmail@example.com" />
+                            <input type="email" id="inputPassword" className="form-control" name="reEmail" value={reEmail} onChange={(e)=>setReEmail(e.target.value)} placeholder="newmail@example.com" required/>
                         </div>
                     </form>
                 </Modal.Body>

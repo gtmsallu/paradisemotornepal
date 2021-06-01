@@ -123,4 +123,11 @@ router.get("/admin", authenticate, async (req, res) => {
   res.send(req.rootAdmin);
   console.log(req.rootAdmin);
 });
+
+//getting data for admin profile
+router.get("/getadmindata", authenticate, async (req, res) => {
+  res.send(req.rootAdmin);
+  console.log(req.rootAdmin);
+});
+
 module.exports = router;
