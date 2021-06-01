@@ -45,7 +45,7 @@ const Header = () => {
     }else{
       window.alert("You have been loged in")
       console.log("You have been loged in")
-      history.push("/");
+      history.push("/admin");
     }
   }
 

@@ -1,12 +1,39 @@
 import React, { useEffect, useState } from 'react';
 
 import { Dropdown } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { sideMenus } from './sidemenu';
 
 import { Modal } from 'react-bootstrap';
 
 const AdminHeader = () => {
+
+
+
+
+    const history= useHistory();
+   const logOut=async(e)=>{
+e.preventDefault();
+const res= await fetch("/logout",{
+    method: "POST",
+    headers:{"content-type":"application/json"},
+    
+})
+const data=await res.json();
+if(!data || res.status===400){
+    window.alert("logout problem");
+}else{
+    window.alert("Admin logout successfull")
+    history.push("/")
+
+}
+   }
+
+
+  
+
+
+
     const location = useLocation();
 
     const currentPage = sideMenus.filter((item) => item.url == (location.pathname).replace(/^\/|\/$/g, ''))[0];
@@ -38,8 +65,8 @@ const AdminHeader = () => {
                                 <i className="fa fa-lock"></i> Change password
                             </Dropdown.Item>
                             <hr className="dropdown-divider" />
-                            <Dropdown.Item>
-                                <i className="fa fa-sign-out-alt"></i> Logout
+                            <Dropdown.Item as="button" onClick={logOut}  >
+                               <i className="fa fa-sign-out-alt"   ></i> Logout
                             </Dropdown.Item>
 
 

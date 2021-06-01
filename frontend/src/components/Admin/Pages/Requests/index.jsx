@@ -1,10 +1,40 @@
+import { useEffect } from "react";
 import { Pagination } from "react-bootstrap";
+import { useHistory } from "react-router";
 import { usePagination, useTable } from "react-table";
 
 import { getRequests } from "../../fakeData";
 
 
 const Table = ({ columns, data }) => {
+const history=useHistory();
+const adminPage=async()=>{
+    try {
+        const res = await fetch("/admin", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await res.json;
+        console.log(data);
+        if (!res.status === 200) {
+          window.alert("no token provided");
+          history.push("/")
+        }
+      } catch (error) {
+        console.log(error);
+        history.push("/admin");
+      }
+    
+};
+
+
+
+
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -24,6 +54,12 @@ const Table = ({ columns, data }) => {
         initialState: { pageIndex: 0 },
     },
         usePagination);
+
+
+
+        useEffect(() => {
+            adminPage();
+         }, []);
 
     return (
         <>

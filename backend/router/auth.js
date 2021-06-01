@@ -7,7 +7,7 @@ const User = require("../model/userSchema");
 const bookingList = require("../model/bookingSchema");
 const subscriberMail = require("../model/subscribeSchema");
 const adminList = require("../model/adminSchema");
-
+const authenticate = require("../middleware/authenticate");
 router.get("/", (req, res) => {
   res.send("hello world");
 });
@@ -114,4 +114,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/logout", (req, res) => {
+  res.clearCookie("jwtoken", { path: "/" });
+  res.status(200).json("Admin logged out");
+});
+
+router.get("/admin", authenticate, (req, res) => {
+  res.send(req.rootAdmin);
+});
 module.exports = router;
