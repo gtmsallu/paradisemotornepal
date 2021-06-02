@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 
@@ -74,10 +75,40 @@ const Subscribers = () => {
             Header: 'Name', accessor: 'name',
         },
         {
-            Header: 'Email', accessor: 'email',
+            Header: 'Email', accessor: 'subscribeMail',
         }
     ];
-    const data = getSubs();
+
+
+    const [data, setData] = useState([]);
+
+    const getSubscribers= async()=>{
+        try {
+            const res=await fetch('/getSubscriber',{
+                method:"GET",
+                headers:{ Accept: "application/json",
+                "Content-Type": "application/json",},
+                credentials: "include",
+            })
+            const data= await res.json();
+           setData(data)
+            console.log(data);
+            if(!res.status===200){
+                const error=new Error(res.error);
+                throw error;
+            }
+            else{
+                console.log(data)
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    
+        useEffect(() => {
+            getSubscribers();
+        }, [])
     return (
         <>
             <div className="col-lg-8 col-md-10 mx-auto">

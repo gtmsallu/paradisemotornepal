@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 
@@ -76,7 +77,36 @@ const ContactMessages = () => {
         { Header: 'Address', accessor: 'address' },
         { Header: 'Message', accessor: 'message' },
     ];
-    const data = getMessages();
+
+    const [data, setData] = useState([]);
+
+    const getMessage= async()=>{
+        try {
+            const res=await fetch('/getMessages',{
+                method:"GET",
+                headers:{ Accept: "application/json",
+                "Content-Type": "application/json",},
+                credentials: "include",
+            })
+            const data= await res.json();
+           setData(data)
+            console.log(data);
+            if(!res.status===200){
+                const error=new Error(res.error);
+                throw error;
+            }
+            else{
+                console.log(data)
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    
+        useEffect(() => {
+            getMessage();
+        }, [])
     return (
         <>
             {/* <h5 className="fw-bold">Messages</h5> */}

@@ -121,13 +121,41 @@ router.post("/logout", async (req, res) => {
 
 router.get("/admin", authenticate, async (req, res) => {
   res.send(req.rootAdmin);
-  console.log(req.rootAdmin);
 });
 
 //getting data for admin profile
 router.get("/getadmindata", authenticate, async (req, res) => {
   res.send(req.rootAdmin);
-  console.log(req.rootAdmin);
+});
+//get booking list
+router.get("/getBookingList", authenticate, async (req, res) => {
+  try {
+    const bookinglist = await bookingList.find({});
+
+    res.send(bookinglist);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
+//getting message list
+router.get("/getMessages", authenticate, async (req, res) => {
+  try {
+    const messagelist = await User.find({});
+
+    res.send(messagelist);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//to get subscriber
+router.get("/getSubscriber", authenticate, async (req, res) => {
+  try {
+    const subscriberlist = await subscriberMail.find({});
+    res.send(subscriberlist);
+  } catch (error) {
+    console.log(error);
+  }
+});
 module.exports = router;
