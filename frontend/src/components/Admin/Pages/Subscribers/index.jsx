@@ -26,8 +26,20 @@ const Table = ({ columns, data }) => {
     },
         usePagination);
 
+
+
+        const dltSubscriber=async (e)=>{
+            e.preventDefault();
+            const res=await fetch("/deleteSubscriber",{
+                method:"DELETE",
+                headers:{"content-type":"application/json"},
+                
+            })
+        }
+
     return (
         <>
+        
             <table class="table table-hover" {...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (
@@ -48,7 +60,7 @@ const Table = ({ columns, data }) => {
                                 {row.cells.map((cell) => {
                                     return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
-                                <td><button className="btn btn-sm float-end me-5 btn-rounded btn-danger">Delete</button></td>
+                                <td><button className="btn btn-sm float-end me-5 btn-rounded btn-danger" name="submit" onClick={dltSubscriber}>Delete</button></td>
                             </tr>
 
                         );

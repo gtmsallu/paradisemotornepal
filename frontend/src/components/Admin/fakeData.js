@@ -1,4 +1,3 @@
-
 export const getRequests = () => {
   const data = [];
   for (let i = 0; i < 100; i++) {

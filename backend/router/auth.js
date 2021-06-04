@@ -7,6 +7,7 @@ const User = require("../model/userSchema");
 const bookingList = require("../model/bookingSchema");
 const subscriberMail = require("../model/subscribeSchema");
 const adminList = require("../model/adminSchema");
+const Teams = require("../model/teamSchema");
 const authenticate = require("../middleware/authenticate");
 router.get("/", (req, res) => {
   res.send("hello world");
@@ -209,6 +210,36 @@ router.get("/getSubscriber", authenticate, async (req, res) => {
   try {
     const subscriberlist = await subscriberMail.find({});
     res.send(subscriberlist);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//to add teams
+router.post("/admin/add-team", async (req, res) => {
+  try {
+    const { image, name, description } = req.body;
+    if (!name || !description || !image) {
+      return res.status(401).json("please fill the credentials");
+    }
+    const team = await new Teams({
+      image: image,
+      name: name,
+      description: description,
+    });
+    await team.save();
+    return res.status(200).json(" Team successfull added!!");
+  } catch (error) {
+    console.log("error");
+  }
+});
+
+//getting teams list
+router.get("/getTeams", authenticate, async (req, res) => {
+  try {
+    const team = await Teams.find({});
+
+    res.send(team);
   } catch (error) {
     console.log(error);
   }
