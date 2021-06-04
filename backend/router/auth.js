@@ -127,6 +127,61 @@ router.get("/admin", authenticate, async (req, res) => {
 router.get("/getadmindata", authenticate, async (req, res) => {
   res.send(req.rootAdmin);
 });
+
+//changing mail for admin
+router.put("/changeMail", authenticate, async (req, res) => {
+  try {
+    const { oldEmail, newEmail, reEmail } = req.body;
+    if (!newEmail || !reEmail) {
+      return res.status(400).json("Please fill the credentials");
+    }
+    if (newEmail === reEmail) {
+      const isMatch = await adminList.findByIdAndUpdate(
+        (_id = req.rootAdmin._id),
+        { email: newEmail }
+      );
+      // if (isMatch) {
+      //   const adminMail = new adminList({ email: newEmail });
+      //   adminMail.save();
+      //   console.log(ismatch.email);
+      //   res.json("email has been changed");
+      // }
+      res.status(200).json("email has been changed");
+    } else {
+      return res.status(401).json("credential mismatch...");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//changing password for admin
+router.put("/changePassword", authenticate, async (req, res) => {
+  try {
+    const { oldPassword, newPassword, cPassword } = req.body;
+    if (!newPassword || !cPassword) {
+      return res.status(400).json("Please fill the credentials");
+    }
+    if (newPassword === cPassword) {
+      const isMatch = await adminList.findByIdAndUpdate(
+        (_id = req.rootAdmin._id),
+        { password: newPassword, cpassword: cPassword }
+      );
+      // if (isMatch) {
+      //   const adminMail = new adminList({ email: newPassword });
+      //   adminMail.save();
+      //   console.log(ismatch.email);
+      //   res.send("email has been changed");
+      // }
+      res.status(200).json("password has been changed");
+    } else {
+      return res.status(401).json("credential mismatch...");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 //get booking list
 router.get("/getBookingList", authenticate, async (req, res) => {
   try {

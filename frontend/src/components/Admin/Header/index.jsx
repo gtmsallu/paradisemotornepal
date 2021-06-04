@@ -8,10 +8,14 @@ import { Modal } from 'react-bootstrap';
 
 const AdminHeader = () => {
 
+
 const [oldEmail, setOldEmail] = useState("");
 const [newEmail, setNewEmail] = useState("");
 const [reEmail, setReEmail] = useState("");
 
+const [newPassword, setnewPassword] = useState("");
+const [oldPassword, setoldPassword] = useState("");
+const [cPassword, setcPassword] = useState("");
 
 
     const history= useHistory();
@@ -28,6 +32,7 @@ if(!data || res.status===400){
 }else{
     window.alert("Admin logout successfull")
     history.push("/")
+
 
 }
    }
@@ -52,6 +57,69 @@ if(!data || res.status===400){
           console.log(error);
         }
       };
+
+      //to change profile email
+
+      const changeProfileMail=async()=>{
+          try {
+              const res=await fetch("/changeMail",{
+                method: "PUT",
+                headers:{"content-type":"application/json"},
+                body:JSON.stringify({oldEmail,newEmail,reEmail})
+              })
+
+              const data= await res.json();
+              setOldEmail( data.email);
+
+              if(!data || res.status===400){
+                  window.alert("Plse fill the credentails");
+                  history.push("/admin");
+              }else if(res.status===401){
+                  window.alert("credentails doesnot match");
+                  history.push("/admin");
+
+              }else      window.alert("email changed successfully. Thank you!!!");
+              history.push("/admin");
+
+
+          } catch (error) {
+              console.log(error);
+          }
+
+      }
+
+
+//to change profile password
+
+
+      const changeProfilePassword=async()=>{
+        try {
+            const res=await fetch("/changePassword",{
+              method: "PUT",
+              headers:{"content-type":"application/json"},
+              body:JSON.stringify({newPassword,oldPassword,cPassword})
+            })
+
+            const data= await res.json();
+            setoldPassword( data.password);
+
+            if(!data || res.status===400){
+                window.alert("Plse fill the credentails");
+                history.push("/admin");
+            }else if(res.status===401){
+                window.alert("credentails doesnot match");
+                history.push("/admin");
+
+            }else      window.alert("password changed successfully. Thank you!!!");
+            history.push("/admin");
+
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+ 
    
 
   useEffect(() => {
@@ -105,8 +173,8 @@ if(!data || res.status===400){
             {/* change email modal */}
             {/* {change password modal} */}
 
-
-            <Modal show={emailModal} onHide={closeEmailModal}>
+    <form method="PUT">
+    <Modal show={emailModal} onHide={closeEmailModal}>
                 <Modal.Header closeButton>
                     <h5 className="fw-bold m-auto">Update Email</h5>
                 </Modal.Header>
@@ -114,7 +182,7 @@ if(!data || res.status===400){
                     <form>
                         <div className="form-group">
                             <label htmlFor="inputEmail">Enter your old Email</label>
-                            <input type="email" id="inputEmail" className="form-control" name="oldEmail" value={oldEmail} onChange={(e)=>setOldEmail(e.target.value)} placeholder="someone@example.com" required />
+                            <input type="email" id="inputEmail" className="form-control" name="oldEmail" value={oldEmail} onChange={(e)=>setOldEmail(e.target.value)} placeholder="someone@example.com" required disabled/>
                         </div>
 
                         <div className="form-group mt-3">
@@ -128,11 +196,15 @@ if(!data || res.status===400){
                     </form>
                 </Modal.Body>
                 <Modal.Footer className="pb-4">
-                    <button className="btn btn-dark px-5 m-auto app_btn_1">Update</button>
+                    <button className="btn btn-dark px-5 m-auto app_btn_1" name="submit" value="submit" onClick={changeProfileMail}>Update</button>
                 </Modal.Footer>
             </Modal>
 
+            </form>
+          
+
             {/* change password modal */}
+            <form method="PUT">
 
             <Modal show={passwordModal} onHide={closePasswordModal}>
                 <Modal.Header closeButton>
@@ -143,18 +215,18 @@ if(!data || res.status===400){
                     <form>
                         <div className="form-group">
                             <label htmlFor="oldPassword">Old Password</label>
-                            <input type="password" id="oldPassword" className="form-control" placeholder="*****" />
+                            <input type="password" id="oldPassword" className="form-control"  name="oldPassword" value={oldPassword} onChange={(e)=>{setoldPassword(e.target.value)}} placeholder="*****" disabled/>
                         </div>
 
 
                         <div className="form-group">
                             <label htmlFor="newPass">New Password</label>
-                            <input type="password" id="newPass" className="form-control" placeholder="*********" />
+                            <input type="password" id="newPass" className="form-control" name="newPassword" value={newPassword} onChange={(e)=>{setnewPassword(e.target.value)}} placeholder="*********" />
                         </div>
 
                         <div className="form-group mt-3">
                             <label htmlFor="confirmNewPass">Confirm Password</label>
-                            <input type="password" id="confirmNewPass" className="form-control" placeholder="*********" />
+                            <input type="password" id="confirmNewPass" className="form-control" name="cPassword" value={cPassword} onChange={(e)=>{setcPassword(e.target.value)}} placeholder="*********" />
                         </div>
 
                     </form>
@@ -162,9 +234,10 @@ if(!data || res.status===400){
 
                 </Modal.Body>
                 <Modal.Footer className="pb-4">
-                    <button className="btn btn-dark px-5 m-auto app_btn_1"> Update</button>
+                    <button className="btn btn-dark px-5 m-auto app_btn_1" name="submit" value="submit" onClick={changeProfilePassword}> Update</button>
                 </Modal.Footer>
             </Modal>
+            </form>
         </>
     );
 }
