@@ -2,7 +2,6 @@ import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 import { useEffect, useState } from "react";
 
-import { getReviews } from "../../fakeData";
 
 
 const Table = ({ columns, data, viewReview }) => {
@@ -106,11 +105,9 @@ const Table = ({ columns, data, viewReview }) => {
 const ViewReview = () => {
     const columns = [
         { Header: 'Client Image', accessor: 'clientImage' },
-
         { Header: 'Customer Name', accessor: 'customerName' },
         { Header: 'Car Image', accessor: 'carImage' },
-
-        { Header: 'Review', accessor: 'clientReview' },
+        { Header: 'Review', accessor: 'customerReview' },
     ];
 
     const [data, setData] = useState([])

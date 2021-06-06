@@ -30,8 +30,8 @@ const postMessage=async(e)=>{
 }),
   });
   const data= await res.json();
-  if (res.status === 422 || !data) {
-    window.alert("not send");
+  if (res.status === 401 || !data) {
+    window.alert("Pls fill the contact form");
     console.log("not sent");
   } else {
     window.alert("message sent");

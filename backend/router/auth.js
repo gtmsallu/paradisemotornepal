@@ -8,6 +8,7 @@ const bookingList = require("../model/bookingSchema");
 const subscriberMail = require("../model/subscribeSchema");
 const adminList = require("../model/adminSchema");
 const Teams = require("../model/teamSchema");
+const Works = require("../model/worksSchema");
 const reviewList = require("../model/reviewSchema");
 const authenticate = require("../middleware/authenticate");
 router.get("/", (req, res) => {
@@ -19,7 +20,7 @@ router.post("/contact", async (req, res) => {
     const { name, phone, email, address, message } = req.body;
     if (!name || !email || !phone || !message) {
       console.log("error in contact form");
-      return res.json({ error: "plss fileed the contact form" });
+      return res.status(401).json({ error: "plss fileed the contact form" });
     }
     // const userContact = User.findOne({ email: email });
     // if (userContact) {
@@ -312,6 +313,50 @@ router.delete("/dltReview/:id", authenticate, async (req, res) => {
   try {
     const reviewlist = await reviewList.deleteOne({ _id: req.params.id });
     if (reviewList) {
+      res.status(200).json("review deleted");
+    } else {
+      res.status(401).json("not deleted");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//add works
+router.post("/admin/add-work", async (req, res) => {
+  try {
+    const { image, carName, description } = req.body;
+    if (!image || !carName || !description) {
+      return res.status(401).json("please fill the credentials");
+    }
+    const work = await new Works({
+      carName,
+      description,
+      image,
+    });
+    await work.save();
+    return res.status(200).json(" work successfull added!!");
+  } catch (error) {
+    console.log("error");
+  }
+});
+
+//to view work
+router.get("/getWork", authenticate, async (req, res) => {
+  try {
+    const works = await Works.find({});
+
+    res.json(works);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//delete work
+router.delete("/dltWorks/:id", authenticate, async (req, res) => {
+  try {
+    const works = await Works.deleteOne({ _id: req.params.id });
+    if (works) {
       res.status(200).json("review deleted");
     } else {
       res.status(401).json("not deleted");
