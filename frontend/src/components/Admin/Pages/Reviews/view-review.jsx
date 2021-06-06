@@ -1,10 +1,11 @@
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
+import { useEffect, useState } from "react";
 
 import { getReviews } from "../../fakeData";
 
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, viewReview }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -24,6 +25,32 @@ const Table = ({ columns, data }) => {
         initialState: { pageIndex: 0 },
     },
         usePagination);
+
+        useEffect(() => {
+           viewReview();
+        }, [])
+
+
+        const dltReview= async (id)=>{
+            try {
+                const res= await fetch("/dltReview/"+id,{
+                    method:"DELETE",
+                    headers:{"content-type":"application/json"},
+                })
+                const data= await res.json();
+                if(!data || res.status===401){
+                    window.alert("cant be delete");
+                }else{
+                    window.alert("Review is deleted succesfully")
+                }
+            } catch (error) {
+                console.log(error)
+            }
+            finally{
+                viewReview();
+            }
+
+        }
 
     return (
         <>
@@ -53,7 +80,7 @@ const Table = ({ columns, data }) => {
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
                                 
-                                <td><button className="btn float-end me-5 btn-rounded btn-danger">Delete</button></td>
+                                <td><button className="btn float-end me-5 btn-rounded btn-danger" onClick={()=>dltReview(row.original._id)}>Delete</button></td>
                             </tr>
 
                         );
@@ -74,17 +101,48 @@ const Table = ({ columns, data }) => {
 
 }
 
+
+
 const ViewReview = () => {
     const columns = [
-        { Header: 'Customer Name', accessor: 'name' },
-        { Header: 'Review', accessor: 'review' },
-        { Header: 'Image', accessor: 'image' }
+        { Header: 'Client Image', accessor: 'clientImage' },
+
+        { Header: 'Customer Name', accessor: 'customerName' },
+        { Header: 'Car Image', accessor: 'carImage' },
+
+        { Header: 'Review', accessor: 'clientReview' },
     ];
-    const data = getReviews();
+
+    const [data, setData] = useState([])
+
+
+const viewReview= async()=>{
+    try {
+        const res=await fetch('/getReview',{
+            method:"GET",
+            headers:{ Accept: "application/json",
+            "Content-Type": "application/json",},
+            credentials: "include",
+        })
+        const data= await res.json();
+       setData(data)
+        console.log(data);
+        if(!res.status===200){
+            const error=new Error(res.error);
+            throw error;
+        }
+        else{
+            console.log(data)
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
     return (
         <>
             <div className="col-lg-10 col-md-10 mx-auto">
-                <Table columns={columns} data={data} />
+                <Table columns={columns} data={data} viewReview={viewReview}/>
             </div>
 
         </>

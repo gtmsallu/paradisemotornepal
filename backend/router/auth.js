@@ -8,6 +8,7 @@ const bookingList = require("../model/bookingSchema");
 const subscriberMail = require("../model/subscribeSchema");
 const adminList = require("../model/adminSchema");
 const Teams = require("../model/teamSchema");
+const reviewList = require("../model/reviewSchema");
 const authenticate = require("../middleware/authenticate");
 router.get("/", (req, res) => {
   res.send("hello world");
@@ -244,4 +245,80 @@ router.get("/getTeams", authenticate, async (req, res) => {
     console.log(error);
   }
 });
+
+//deleting subscriber
+router.delete("/deleteSubscriber/:id", authenticate, async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const deleteMail = await subscriberMail.deleteOne({ _id: req.params.id });
+    if (deleteMail) {
+      res.status(200).json("deleted");
+    } else {
+      console.log("error");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// deleting teams
+router.delete("/dltTeam/:id", authenticate, async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const deleteTeam = await Teams.deleteOne({ _id: req.params.id });
+    if (deleteTeam) {
+      res.status(200).json("Team is deleted");
+    } else {
+      console.log("error");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//to add review
+router.post("/admin/add-review", async (req, res) => {
+  try {
+    const { clientImage, carImage, customerName, customerReview } = req.body;
+    if (!clientImage || !carImage || !customerName || !customerReview) {
+      return res.status(401).json("please fill the credentials");
+    }
+    const review = await new reviewList({
+      clientImage,
+      carImage,
+      customerName,
+      customerReview,
+    });
+    await review.save();
+    return res.status(200).json(" review successfull added!!");
+  } catch (error) {
+    console.log("error");
+  }
+});
+
+//to view review
+router.get("/getReview", authenticate, async (req, res) => {
+  try {
+    const reviewlist = await reviewList.find({});
+
+    res.json(reviewlist);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//delete review
+router.delete("/dltReview/:id", authenticate, async (req, res) => {
+  try {
+    const reviewlist = await reviewList.deleteOne({ _id: req.params.id });
+    if (reviewList) {
+      res.status(200).json("review deleted");
+    } else {
+      res.status(401).json("not deleted");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;

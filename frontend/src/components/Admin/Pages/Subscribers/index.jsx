@@ -4,7 +4,9 @@ import { usePagination, useTable } from "react-table";
 
 import { getSubs } from "./../../fakeData";
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, getSubscribers }) =>
+ {
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -26,16 +28,38 @@ const Table = ({ columns, data }) => {
     },
         usePagination);
 
+        useEffect(() => {
+            getSubscribers();
+        }, [])
 
-
-        const dltSubscriber=async (e)=>{
-            e.preventDefault();
-            const res=await fetch("/deleteSubscriber",{
+        const dltSubscriber=async (id)=>{
+           try {
+            const res=await fetch("/deleteSubscriber/"+id,{
                 method:"DELETE",
                 headers:{"content-type":"application/json"},
                 
-            })
+            });
+            const data=await res.json();
+            console.log(data);
+            if(!res.status===200 || !data){
+                window.alert("cant be delete")   ;         
+            }
+            else{
+                console.log(data);
+                window.alert("mail has been deleted")            }
+
+            
+               
+           } catch (error) {
+            console.log(error);
+
+           }
+           finally{
+               getSubscribers();
+           }
         }
+        console.log("page",page)
+        
 
     return (
         <>
@@ -55,12 +79,13 @@ const Table = ({ columns, data }) => {
 
                     {page.map((row, i) => {
                         prepareRow(row);
+                        console.log(row.id);
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
                                     return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
-                                <td><button className="btn btn-sm float-end me-5 btn-rounded btn-danger" name="submit" onClick={dltSubscriber}>Delete</button></td>
+                                <td><button className="btn btn-sm float-end me-5 btn-rounded btn-danger" name="submit" onClick={()=>dltSubscriber(row.original._id)}>Delete</button></td>
                             </tr>
 
                         );
@@ -94,6 +119,8 @@ const Subscribers = () => {
 
     const [data, setData] = useState([]);
 
+   
+
     const getSubscribers= async()=>{
         try {
             const res=await fetch('/getSubscriber',{
@@ -104,27 +131,23 @@ const Subscribers = () => {
             })
             const data= await res.json();
            setData(data)
-            console.log(data);
+            
             if(!res.status===200){
                 const error=new Error(res.error);
                 throw error;
             }
-            else{
-                console.log(data)
-            }
+           
         } catch (error) {
             throw error;
         }
     }
     
     
-        useEffect(() => {
-            getSubscribers();
-        }, [])
+       
     return (
         <>
             <div className="col-lg-8 col-md-10 mx-auto">
-                <Table columns={columns} data={data} />
+                <Table columns={columns} data={data} getSubscribers= {getSubscribers} />
             </div>
 
         </>

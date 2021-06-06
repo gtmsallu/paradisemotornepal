@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { usePagination, useTable } from "react-table";
 
-import { getTeams } from "../../fakeData";
 
-
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, getTeams }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -17,6 +15,32 @@ const Table = ({ columns, data }) => {
         initialState: { pageIndex: 0 },
     },
         usePagination);
+
+        useEffect(() => {
+            getTeams();
+        }, [])
+
+
+        const dltTeam= async (id)=>{
+            try {
+                const res= await fetch("/dltTeam/"+id,{
+                    method:"DELETE",
+                    headers:{"content-type":"application/json"},
+                })
+                const data= await res.json();
+                if(!data || res.status===401){
+                    window.alert("cant be delete");
+                }else{
+                    window.alert("Team is deleted succesfully")
+                }
+            } catch (error) {
+                console.log(error)
+            }
+            finally{
+                getTeams();
+            }
+
+        }
 
     return (
         <>
@@ -47,7 +71,7 @@ const Table = ({ columns, data }) => {
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
 
-                                <td><button className="btn btn-sm float-end me-5 btn-rounded btn-danger">Delete</button></td>
+                                <td><button className="btn btn-sm float-end me-5 btn-rounded btn-danger" onClick={()=>dltTeam(row.original._id)}>Delete</button></td>
                             </tr>
 
                         );
@@ -94,13 +118,11 @@ const ViewTeam = () => {
     }
     
     
-        useEffect(() => {
-            getTeams();
-        }, [])
+       
     return (
         <>
             <div className="col-lg-10 col-md-10 mx-auto">
-                <Table columns={columns} data={data} />
+                <Table columns={columns} data={data} getTeams={getTeams} />
             </div>
 
         </>
