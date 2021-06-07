@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { Link, NavLink, useHistory } from "react-router-dom";
 
@@ -34,18 +35,19 @@ const Header = () => {
     const data= await res.json;
     console.log(data);
     if(!data|| res.status===401){
-      window.alert("plse fill credentials")
+      toast.warn("plse fill credentials",{position: "top-center"})
       console.log("plse fill credentials")
     }else if (res.status===400){
-      window.alert("credential doesnt match")
+      toast.error("credential doesnt match",{position: "top-center"})
       console.log("credential doesnt match");
       history.push("/");
 
 
     }else{
-      window.alert("You have been loged in")
       console.log("You have been loged in")
       history.push("/admin");
+      toast.success("You have been loged in",{position: "top-center"})
+
     }
   }
 
@@ -137,6 +139,8 @@ const Header = () => {
         </Modal.Footer>
       </Modal>
       </form>
+
+      <ToastContainer />
           
     </>
   );

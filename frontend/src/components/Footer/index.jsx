@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Footer = () => {
   const [show, setShow] = useState(false);
@@ -21,15 +22,16 @@ const res=await fetch("/mail",{
 }) 
 const data= await res.json();
 if(!data || res.status===402){
-  window.alert("plse fill the mail");
+  toast.warn("plse fill the mail",{position: "top-center"});
+
 
 }else if(res.status===422){
-  window.alert("your mail was already registered try new one" );
+  toast.warn("your mail was already registered try new one",{position: "top-center"});
+
 }else{
 
+  toast.success("you have been subscribed, thank you vistis again..",{position: "top-center"});
 
-  window.alert("you have been subscribed, thank you vistis again..");
-  console.log("sucessfull");
 }
 }
   return (

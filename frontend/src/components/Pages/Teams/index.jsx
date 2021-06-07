@@ -3,9 +3,11 @@ import './teams.css';
 
 
 const TeamsPage = () => {
- 
+  document.title = 'Our Team | Paradise Motors Nepal';
+
 
     const [data, setData] = useState([])
+    
     const getTeamData=async ()=>{
       try {
         const res=await fetch('/getTeams',{
@@ -28,7 +30,6 @@ const TeamsPage = () => {
   
     }, [])
 
-  document.title = 'Our Team | Paradise Motors Nepal';
 
   return (
     <div className="teams-page">
@@ -44,7 +45,8 @@ const TeamsPage = () => {
 
 
         <div className="row pt-3">
-        {data.map((val,i)=>{
+        
+      { data.map((val,i)=> {
           return( <div className="col-md-4 user-card text-center">
           <img
             src="/assets/images/users/user-1.png"

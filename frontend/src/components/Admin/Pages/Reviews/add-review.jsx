@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddReview = () => {
 const history= useHistory();
@@ -19,9 +20,11 @@ const history= useHistory();
             })
             const data=await res.json();
             if(!data || res.status===401){
-                window.alert("pls fill the data.");
+                toast.error("pls fill the data.",{position: "top-center"});
+
             }else if(res.status===200){
-                window.alert("review added sucessfully.");
+                toast.success("Review added sucessfully.",{position: "top-center"});
+
                 history.push("/admin/view-review")
 
             }

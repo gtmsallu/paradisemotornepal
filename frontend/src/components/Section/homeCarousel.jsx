@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Carousel } from "react-bootstrap";
-import {useHistory} from "react-router-dom"
+import {useHistory} from "react-router-dom";
+import { toast } from 'react-toastify';
+
 const HomeCarousel = () => {
   const history=useHistory();
 
@@ -26,11 +28,11 @@ const res=await fetch("/",{
 
 const data= await res.json();
 if (res.status === 422 || !data) {
-  window.alert("Your Booking was not request. Please fill the form");
+  toast.warn("Your Booking was not request. Please fill the form",{position: "top-center"});
+
   console.log("your Booking was not req");
 } else {
-  window.alert("your Booking was reqested succesfully");
-  console.log("your Booking was reqested succesfully");
+  toast.success("your Booking was reqested succesfully",{position: "top-center"});
   history.push("/");
  
 }

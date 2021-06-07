@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { ToastContainer } from 'react-toastify';
 
 import HomeCarousel from "./components/Section/homeCarousel";
 import About from "./components/Section/about";
@@ -20,9 +21,11 @@ import PrivacyPage from "./components/Pages/Privacy";
 import ReviewsPage from "./components/Pages/Reviews";
 
 import NotFound from "./components/NotFound";
+import { createContext } from "react";
 
 
 const MainRouter = () => {
+    const UserContext = createContext();
 
     return (
         <>
@@ -51,6 +54,7 @@ const MainRouter = () => {
                 </Switch>
             </main>
             <Footer />
+            <ToastContainer />
         </>
     );
 

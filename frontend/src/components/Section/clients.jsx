@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import React, { useEffect, useState } from "react";
+
 
 const Clients = () => {
   const sliderSettings = {
@@ -25,6 +27,35 @@ const Clients = () => {
       },
     ],
   };
+
+
+
+  const [data, setData] = useState({})
+  const viewReviewss= async()=>{
+    try {
+        const res=await fetch('/getReview',{
+            method:"GET",
+            headers:{ Accept: "application/json",
+            "Content-Type": "application/json",},
+            credentials: "include",
+        })
+        const data= await res.json();
+       setData(data)
+        console.log(data);
+        if(!res.status===200){
+            const error=new Error(res.error);
+            throw error;
+        }
+        else{
+            console.log(data)
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+useEffect(() => {
+ viewReviewss();
+}, [])
 
   return (
     <>

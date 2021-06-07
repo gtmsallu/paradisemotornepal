@@ -3,7 +3,6 @@ import { Pagination } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { usePagination, useTable } from "react-table";
 
-import { getRequests } from "../../fakeData";
 
 
 const Table = ({ columns, data }) => {

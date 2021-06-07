@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import { toast } from 'react-toastify';
 
 import './contact.css';
 
 const ContactPage = () => {
+  const history= useHistory();
   document.title = 'Contact | Paradise Motors Nepal';
   const [userData, setuserData] = useState({name:"",email:"",phone:"",address:"",message:""})
   let name, value;
@@ -13,31 +16,34 @@ const inputValue=(e)=>{
   setuserData({...userData,[name]:value});
 }
 const postMessage=async(e)=>{
-  e.preventDefault();
-  const{name,email,phone,address,message}=userData;
-  const res = await fetch('/contact',{
-    method:"POST",
-    headers:{
-     "Content-Type":"application/json"
-
-},body: JSON.stringify({
-  name,
-  email,
-  phone,
-  address,
-  message,
+  try {
+    e.preventDefault();
+    const{name,email,phone,address,message}=userData;
+    const res = await fetch('/contact',{
+      method:"POST",
+      headers:{
+       "Content-Type":"application/json"
   
-}),
-  });
-  const data= await res.json();
-  if (res.status === 401 || !data) {
-    window.alert("Pls fill the contact form");
-    console.log("not sent");
-  } else {
-    window.alert("message sent");
-    console.log("succefully Registered");
-   
-  }
+  },body: JSON.stringify({
+    name,
+    email,
+    phone,
+    address,
+    message,
+    
+  }),
+    });
+    const data= await res.json();
+    if (res.status === 401 || !data) {
+      toast.warn("Pls fill the contact form",{position: "top-center"});
+    } else {
+      toast.success("Message has been sent sucessfully",{position: "top-center"});
+     history.push("/")
+    }
+  } catch (error) {
+    console.log(error);
+  } 
+ 
 
 
 }

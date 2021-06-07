@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown } from "react-bootstrap";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { sideMenus } from './sidemenu';
+import { toast } from 'react-toastify';
 
 import { Modal } from 'react-bootstrap';
 
@@ -19,6 +20,8 @@ const [cPassword, setcPassword] = useState("");
 
 
     const history= useHistory();
+
+    //to logout
    const logOut=async(e)=>{
 e.preventDefault();
 const res= await fetch("/logout",{
@@ -28,16 +31,16 @@ const res= await fetch("/logout",{
 })
 const data=await res.json();
 if(!data || res.status===400){
-    window.alert("logout problem");
+    toast.error("logout problem",{position: "top-center"});
 }else{
-    window.alert("Admin logout successfull")
-    history.push("/")
+    toast.success("Logout successfully. Thank you!!!",{position: "top-center"});
+        history.push("/")
 
 
 }
    }
 
-
+//to get admin data
    const adminProfile=async()=>{
         try {
           const res = await fetch("/getadmindata", {
@@ -72,18 +75,25 @@ if(!data || res.status===400){
               setOldEmail( data.email);
 
               if(!data || res.status===400){
-                  window.alert("Plse fill the credentails");
+                  toast.warn("Plse fill the credentails",{position: "top-center"});
                   history.push("/admin");
               }else if(res.status===401){
-                  window.alert("credentails doesnot match");
+                  toast.error("credentails doesnot match",{position: "top-center"});
                   history.push("/admin");
 
-              }else      window.alert("email changed successfully. Thank you!!!");
+              }else      toast.success("email changed successfully. Thank you!!!",{position: "top-center"});
               history.push("/admin");
 
 
           } catch (error) {
               console.log(error);
+          }
+          finally{
+              adminProfile();
+              setNewEmail("");
+              setReEmail("");
+
+
           }
 
       }
@@ -104,18 +114,25 @@ if(!data || res.status===400){
             setoldPassword( data.password);
 
             if(!data || res.status===400){
-                window.alert("Plse fill the credentails");
+                toast.warn("Plse fill the credentails",{position: "top-center"});
                 history.push("/admin");
             }else if(res.status===401){
-                window.alert("credentails doesnot match");
+                toast.error("credentails doesnot match",{position: "top-center"});
                 history.push("/admin");
 
-            }else      window.alert("password changed successfully. Thank you!!!");
+            }else      toast.success("Password changed successfully. Thank you!!!",{position: "top-center"});
             history.push("/admin");
 
 
         } catch (error) {
             console.log(error);
+        }
+        finally{
+            adminProfile();
+            setnewPassword("");
+            setcPassword("");
+
+
         }
 
     }
@@ -191,7 +208,7 @@ if(!data || res.status===400){
                         </div>
                         <div className="form-group mt-3">
                             <label htmlFor="inputPassword">Confirm your new Email</label>
-                            <input type="email" id="inputPassword" className="form-control" name="reEmail" value={reEmail} onChange={(e)=>setReEmail(e.target.value)} placeholder="newmail@example.com" required/>
+                            <input type="email" id="inputPassword" className="form-control" name="reEmail" value={reEmail} onChange={(e)=>setReEmail(e.target.value)} placeholder="confirmmail@example.com" required/>
                         </div>
                     </form>
                 </Modal.Body>
@@ -221,12 +238,12 @@ if(!data || res.status===400){
 
                         <div className="form-group">
                             <label htmlFor="newPass">New Password</label>
-                            <input type="password" id="newPass" className="form-control" name="newPassword" value={newPassword} onChange={(e)=>{setnewPassword(e.target.value)}} placeholder="*********" />
+                            <input type="password" id="newPass" className="form-control" name="newPassword" value={newPassword} onChange={(e)=>{setnewPassword(e.target.value)}} placeholder="Enter your new password" />
                         </div>
 
                         <div className="form-group mt-3">
                             <label htmlFor="confirmNewPass">Confirm Password</label>
-                            <input type="password" id="confirmNewPass" className="form-control" name="cPassword" value={cPassword} onChange={(e)=>{setcPassword(e.target.value)}} placeholder="*********" />
+                            <input type="password" id="confirmNewPass" className="form-control" name="cPassword" value={cPassword} onChange={(e)=>{setcPassword(e.target.value)}} placeholder="Confirm your new password" />
                         </div>
 
                     </form>

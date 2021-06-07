@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 
-import { getMessages } from "../../fakeData";
 
 
 const Table = ({ columns, data }) => {

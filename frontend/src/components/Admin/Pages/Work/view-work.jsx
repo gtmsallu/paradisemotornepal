@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
+import { toast } from "react-toastify";
 
-import { getWorkData } from "../../fakeData";
 
 
 const Table = ({ columns, data, ViewWork }) => {
@@ -37,9 +37,11 @@ try {
     })
     const data= await res.json();
     if(!data || res.status===401){
-        window.alert("cant be delete");
+        toast.warn("Cant be delete.",{position: "top-center"});
+
     }else{
-        window.alert("Work is deleted succesfully")
+        toast.success("Work is deleted succesfully.",{position: "top-center"});
+
     }
 
 } catch (error) {

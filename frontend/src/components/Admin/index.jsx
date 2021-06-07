@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import PullRequests from "./Pages/Requests";
 import { Redirect, Route, Switch } from "react-router";
 import ContactMessages from "./Pages/Messages";
+import { ToastContainer } from 'react-toastify';
 
 import './admin.css';
 import Subscribers from "./Pages/Subscribers";
@@ -56,6 +57,7 @@ const AdminPage = (props) => {
             </div>
 
             <AdminFooter />
+            <ToastContainer />
         </div>
 
 

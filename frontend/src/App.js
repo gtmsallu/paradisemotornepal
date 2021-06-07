@@ -7,6 +7,8 @@ import "./css/slick/slick.css";
 import "./css/slick/slick-theme.css";
 import AdminPage from "./components/Admin";
 import MainRouter from "./MainRouter";
+import "react-toastify/dist/ReactToastify.css";
+import { createContext } from "react";
 
 function App() {
   return (

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
+import { toast } from 'react-toastify';
 
-import { getSubs } from "./../../fakeData";
 
 const Table = ({ columns, data, getSubscribers }) =>
  {
@@ -42,13 +42,15 @@ const Table = ({ columns, data, getSubscribers }) =>
             const data=await res.json();
             console.log(data);
             if(!res.status===200 || !data){
-                window.alert("cant be delete")   ;         
+                toast.warn("cant be delete",{position: "top-center"});
+
             }
             else{
                 console.log(data);
-                window.alert("mail has been deleted")            }
+                toast.success("Mail has been deleted",{position: "top-center"});
 
-            
+
+            }
                
            } catch (error) {
             console.log(error);

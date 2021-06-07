@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 
 
@@ -12,17 +12,43 @@ const pageNextBtn = React.forwardRef(({ children, onClick }, ref) => (
 const ReviewsPage = () => {
 
   document.title = 'Reviews | Paradise Motors Nepal';
+const [data, setData] = useState({})
+  const viewReview= async()=>{
+    try {
+        const res=await fetch('/getReview',{
+            method:"GET",
+            headers:{ Accept: "application/json",
+            "Content-Type": "application/json",},
+            credentials: "include",
+        })
+        const data= await res.json();
+       setData(data)
+        console.log(data);
+        if(!res.status===200){
+            const error=new Error(res.error);
+            throw error;
+        }
+        else{
+            console.log(data)
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+useEffect(() => {
+ viewReview();
+}, [])
 
   return (
     <div className="container pt-5">
 
-      {['One', 'Two', 'Three'].map((i) => {
+      {data.map((review, i) => {
         return (
           <div className="d-flex justify-content-between align-items-center mb-4">
             <img src="/assets/images/users/user-1.png" style={{ height: 190, width: 190, objectFit: 'cover' }} height="200" className="rounded-circle" alt="" />
             <div>
-              <h4>Client {i}</h4>
-              <p>2011 model ford-festa looks like brand new after System X Diamond Coating.</p>
+              <h4>{review.customerName}</h4>
+              <p>{review.customerReview}</p>
             </div>
             <img src="/assets/images/image-3.png" style={{ height: 200, width: 300 }} alt="" />
           </div>
