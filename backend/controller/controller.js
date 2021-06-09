@@ -3,6 +3,7 @@ const subscriberMail = require("../model/subscribeSchema");
 const adminList = require("../model/adminSchema");
 const Teams = require("../model/teamSchema");
 const Works = require("../model/worksSchema");
+const reviewList = require("../model/reviewSchema");
 
 exports.bookingRoute = async (req, res) => {
   try {
@@ -84,10 +85,28 @@ exports.logoutRoute = async (req, res) => {
   res.status(200).json("Admin logged out");
 };
 
+exports.addWorkRoute = async (req, res) => {
+  try {
+    const { image, carName, description } = req.body;
+    if (!image || !carName || !description) {
+      return res.status(401).json("please fill the credentials");
+    }
+    const work = await new Works({
+      carName,
+      description,
+      image,
+    });
+    await work.save();
+    return res.status(200).json(" work successfull added!!");
+  } catch (error) {
+    console.log("error");
+  }
+};
+
 exports.addTeamRoute = async (req, res) => {
   try {
     const { name, description } = req.body;
-    const files = req.file.filename;
+    const files = req.files.filename;
     console.log(files);
     if (!name || !description || !files) {
       return res.status(401).json("please fill the credentials");
@@ -104,20 +123,33 @@ exports.addTeamRoute = async (req, res) => {
   }
 };
 
-exports.addWorkRoute = async (req, res) => {
+exports.addReviewRoute = async (req, res) => {
   try {
-    const { image, carName, description } = req.body;
-    if (!image || !carName || !description) {
+    const { customerName, customerReview } = req.body;
+    console.log(req.files);
+    const carimgfile = req.files.carImage;
+    const clientimgfile = req.files.clientImage;
+    if (!clientimgfile || !carimgfile || !customerName || !customerReview) {
       return res.status(401).json("please fill the credentials");
     }
-    const work = await new Works({
-      carName,
-      description,
-      image,
+    const review = await new reviewList({
+      clientImage: clientimgfile,
+      carImage: carimgfile,
+      customerName: customerName,
+      customerReview: customerReview,
     });
-    await work.save();
-    return res.status(200).json(" work successfull added!!");
+    await review.save();
+    return res.status(200).json(" review successfull added!!");
   } catch (error) {
     console.log("error");
+  }
+};
+
+exports.getSubscribeRoute = async (req, res) => {
+  try {
+    const subscriberlist = await subscriberMail.find({});
+    res.json(subscriberlist);
+  } catch (error) {
+    console.log(error);
   }
 };

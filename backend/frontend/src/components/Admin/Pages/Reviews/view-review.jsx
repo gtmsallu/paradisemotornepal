@@ -123,13 +123,12 @@ const viewReview= async()=>{
         })
         const data= await res.json();
        setData(data)
-        console.log(data);
         if(!res.status===200){
             const error=new Error(res.error);
             throw error;
         }
         else{
-            console.log(data)
+            console.log("sucess")
         }
     } catch (error) {
         throw error;

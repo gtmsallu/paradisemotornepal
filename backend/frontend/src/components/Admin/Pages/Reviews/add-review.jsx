@@ -13,12 +13,18 @@ const history= useHistory();
     const AddReview=async (e)=>{
         try {
             e.preventDefault();
+            const formdata=new FormData();
+            formdata.append("clientImage", clientImage);
+            formdata.append("carImage", carImage);
+            formdata.append("customerName", customerName);
+            formdata.append("customerReview", customerReview);
+
             const res= await fetch("/admin/add-review",{
                 method: "POST",
-                headers:{"content-type":"application/json"},
-                body: JSON.stringify({ clientImage, carImage, customerName, customerReview}),
+                body: formdata,
             })
             const data=await res.json();
+            
             if(!data || res.status===401){
                 toast.error("pls fill the data.",{position: "top-center"});
 
@@ -36,16 +42,16 @@ const history= useHistory();
     return (
         <>
 
-            <form method="POST" className="col-8 m-auto mt-4">
+            <form method="POST" encType="multipart/form-data" className="col-8 m-auto mt-4">
                 <h5 className="fw-bold">Add Review</h5>
                 
                 <div className="form-group mb-3">
                     <label htmlFor="clientImage">Client Image</label>
-                    <input class="form-control" type="file" id="clientImage"  name="clientImage" value={clientImage} onChange={(e)=>{setClientImage(e.target.value)}} />
+                    <input class="form-control" type="file" id="clientImage"  filename="clientImage"  onChange={(e)=>{setClientImage(e.target.files[0])}} />
                 </div>
-                <div className="form-group mb-3">
+                <div classfile="form-group mb-3">
                     <label htmlFor="carImage">Car Image</label>
-                    <input class="form-control" type="file" id="carImage"  name="carImage" value={carImage} onChange={(e)=>{setCarImage(e.target.value)}} />
+                    <input class="form-control" type="file" id="carImage"  filename="carImage"  onChange={(e)=>{setCarImage(e.target.files[0])}} />
                 </div>
 
                 <div className="form-group mb-3">

@@ -1,9 +1,9 @@
 const multer = require("multer");
-
+// import data from "../../src/images";
 //set storage
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./images");
+    cb(null, "../../src/img");
   },
   filename: (req, file, cb) => {
     var ext = file.originalname.substr(file.originalname.lastIndexOf("."));

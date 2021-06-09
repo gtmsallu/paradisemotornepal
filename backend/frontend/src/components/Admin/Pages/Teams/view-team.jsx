@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePagination, useTable } from "react-table";
 import { toast } from "react-toastify";
-
+import imag from "../../../../images/image-1623258276017.png";
 const Table = ({ columns, data, getTeams }) => {
     const {
         getTableProps,
@@ -65,11 +65,11 @@ const Table = ({ columns, data, getTeams }) => {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
-                                                                        console.log(cell.value);
+                                    console.log(cell.value)
 
                                     if (cell.column.id === 'image')
                                         return <td {...cell.getCellProps()}>
-                                            <img src={`"../../../../../backend/images/${cell.value}`} alt="" className="img-fluid" style={{ width: 120 }} />
+                                            <img src={cell.value} alt="" className="img-fluid" style={{ width: 120 }} />
                                         </td>
                                     else
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
@@ -89,10 +89,12 @@ const Table = ({ columns, data, getTeams }) => {
 }
 
 const ViewTeam = () => {
-    const columns = [
+    const columns = [      
         { Header: 'Image', accessor: 'image' },
         { Header: 'Name', accessor: 'name' },
+
         { Header: 'Description', accessor: 'description' },
+
     ];
 
 
@@ -108,7 +110,6 @@ const ViewTeam = () => {
             })
             const data= await res.json();
            setData(data);
-            console.log(data);
             if(!res.status===200){
                 const error=new Error(res.error);
                 throw error;
@@ -127,7 +128,11 @@ const ViewTeam = () => {
         <>
             <div className="col-lg-10 col-md-10 mx-auto">
                 <Table columns={columns} data={data} getTeams={getTeams} />
+
             </div>
+
+           
+
 
         </>
     );

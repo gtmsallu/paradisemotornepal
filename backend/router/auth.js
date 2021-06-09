@@ -3,6 +3,8 @@ const router = express.Router();
 const controller = require("../controller/controller");
 require("../db/conn");
 const User = require("../model/userSchema");
+const subscriberMail = require("../model/subscribeSchema");
+
 const adminList = require("../model/adminSchema");
 const bookingList = require("../model/bookingSchema");
 const store = require("../middleware/multer");
@@ -135,14 +137,7 @@ router.get("/getMessages", authenticate, async (req, res) => {
 });
 
 //to get subscriber
-router.get("/getSubscriber", authenticate, async (req, res) => {
-  try {
-    const subscriberlist = await subscriberMail.find({});
-    res.send(subscriberlist);
-  } catch (error) {
-    console.log(error);
-  }
-});
+router.get("/getSubscriber", authenticate, controller.getSubscribeRoute);
 
 //to add teams
 router.post("/admin/add-team", store.single("image"), controller.addTeamRoute);
@@ -188,24 +183,7 @@ router.delete("/dltTeam/:id", authenticate, async (req, res) => {
 });
 
 //to add review
-router.post("/admin/add-review", authenticate, async (req, res) => {
-  try {
-    const { clientImage, carImage, customerName, customerReview } = req.body;
-    if (!clientImage || !carImage || !customerName || !customerReview) {
-      return res.status(401).json("please fill the credentials");
-    }
-    const review = await new reviewList({
-      clientImage,
-      carImage,
-      customerName,
-      customerReview,
-    });
-    await review.save();
-    return res.status(200).json(" review successfull added!!");
-  } catch (error) {
-    console.log("error");
-  }
-});
+router.post("/admin/add-review", authenticate, controller.addReviewRoute);
 
 //to view review
 router.get("/getReview", authenticate, async (req, res) => {
@@ -233,7 +211,11 @@ router.delete("/dltReview/:id", authenticate, async (req, res) => {
 });
 
 //add works
-router.post("/admin/add-work", controller.addWorkRoute);
+router.post(
+  "/admin/add-work",
+  store.array("image", 2),
+  controller.addWorkRoute
+);
 
 //to view work
 router.get("/getWork", authenticate, async (req, res) => {

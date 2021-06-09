@@ -43,7 +43,7 @@ if(!data || res.status===401){
 
                 <div className="form-group mb-3">
                     <label htmlFor="inputImage">Image</label>
-                    <input class="form-control" type="file" filename="image" onChange={(e)=>{setImage(e.target.files[0])}}  id="inputImage"/>
+                    <input class="form-control" type="file" filename="image" name="image" onChange={(e)=>{setImage(e.target.files[0])}}  id="inputImage"/>
                 </div>
 
                 <div className="form-group mb-3">
