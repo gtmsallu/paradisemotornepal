@@ -6,6 +6,7 @@ const teamSchema = new mongoose.Schema({
   },
   image: {
     type: String,
+    unique: true,
     require: true,
   },
   description: {

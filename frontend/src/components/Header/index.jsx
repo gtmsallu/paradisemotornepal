@@ -1,13 +1,16 @@
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { Link, NavLink, useHistory } from "react-router-dom";
-
+import {UserContext} from "../../MainRouter"
 import './header.css';
 
 const Header = () => {
+
+  const {state, dispatch} = useContext(UserContext);
+
   const history=useHistory();
   const [show, setShow] = useState(false);
 
@@ -16,6 +19,7 @@ const Header = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
 
 
   const postLogin=async (e)=>{
@@ -45,13 +49,71 @@ const Header = () => {
 
     }else{
       console.log("You have been loged in")
+      dispatch({type:"USER", payload: true})
       history.push("/admin");
       toast.success("You have been loged in",{position: "top-center"})
 
     }
   }
 
- 
+  // logout
+  const handleLogout=async (e)=>{
+    e.preventDefault();
+    
+    const res= await fetch("/logout",{
+      method: "POST",
+      headers:{"content-type":"application/json"},
+      
+  })
+  const data=await res.json();
+  if(!data || res.status===400){
+      toast.error("logout problem",{position: "top-center"});
+  }else{
+    dispatch({type:"USER", payload: false})
+
+      toast.success("Logout successfully. Thank you!!!",{position: "top-center"});
+          history.push("/")
+  
+  
+  }
+  }
+
+const RenderMenu=()=>{
+  {console.log(state);
+    if(state){
+    return(
+      <div>
+      <button type="button" class="btn account-btn me-2" onClick={handleLogout}>
+        {/* <img
+        height="20"
+        class="icon mr-1"
+        src="assets/account.svg"
+        alt=""
+      /> */}
+        <i className="far fa-user-circle me-2"></i>
+        Log Out
+      </button>
+    </div>)
+    
+    
+    ;
+   
+  }else{
+    return(<div>
+      <button type="button" class="btn account-btn me-2" onClick={handleShow}>
+        {/* <img
+        height="20"
+        class="icon mr-1"
+        src="assets/account.svg"
+        alt=""
+      /> */}
+        <i className="far fa-user-circle me-2"></i>
+        Login
+      </button>
+     </div>)
+  }}
+}
+
 
   return (
     <>
@@ -97,19 +159,9 @@ const Header = () => {
                 <NavLink to="/contact">Contact</NavLink>
               </li>
             </ul>
-
-            <div>
-              <button type="button" class="btn account-btn me-2" onClick={handleShow}>
-                {/* <img
-                height="20"
-                class="icon mr-1"
-                src="assets/account.svg"
-                alt=""
-              /> */}
-                <i className="far fa-user-circle me-2"></i>
-                Login
-              </button>
-            </div>
+        <RenderMenu />
+           
+           
           </div>
         </div>
       </header>

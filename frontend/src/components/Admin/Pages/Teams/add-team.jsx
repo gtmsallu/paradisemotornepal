@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddTeam = () => {
     const history=useHistory();
@@ -9,34 +10,40 @@ const [description, setDescription] = useState("");
 
 const addTeams=async (e)=>{
     e.preventDefault();
+const formData= new FormData();
+    formData.append("image", image);
+    formData.append("name", name);
+    formData.append("description", description);
+
+
 
 const res=await fetch("/admin/add-team",{
    method:"POST",
-    headers:{"content-type":"application/json"},
-body:JSON.stringify({image, name, description}),
+   
+body:formData,
 })
 const data=await res.json();
 if(!data || res.status===401){
     console.log("plse fill data");
-    window.alert("plse fill data");
+    toast.warn("plse fill data",{position: "top-center"});
 
 }else{
     console.log("team is successfully added");
-    window.alert("team is successfully added");
+    toast.success("Team is successfully added.",{position: "top-center"});
     history.push("/admin/view-team");
 }
 }
     return (
         <>
 
-            <form method="POST" className="col-8 m-auto mt-4">
+            <form method="POST" encType="multipart/form-data" className="col-8 m-auto mt-4">
                 <h5 className="fw-bold">Add Team</h5>
 
                 <span className="text-blue">Can only add upto 6 members (Check <Link to="/admin/view-team">View Teams</Link> to see your List)</span>
 
                 <div className="form-group mb-3">
                     <label htmlFor="inputImage">Image</label>
-                    <input class="form-control" type="file" name="image" value={image} onChange={(e)=>{setImage(e.target.value)}}  id="inputImage"/>
+                    <input class="form-control" type="file" filename="image" onChange={(e)=>{setImage(e.target.files[0])}}  id="inputImage"/>
                 </div>
 
                 <div className="form-group mb-3">

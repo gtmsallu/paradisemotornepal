@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { usePagination, useTable } from "react-table";
-
+import { toast } from "react-toastify";
 
 const Table = ({ columns, data, getTeams }) => {
     const {
@@ -29,9 +29,11 @@ const Table = ({ columns, data, getTeams }) => {
                 })
                 const data= await res.json();
                 if(!data || res.status===401){
-                    window.alert("cant be delete");
+                    toast.warn("cant be delete.",{position: "top-center"});
+
                 }else{
-                    window.alert("Team is deleted succesfully")
+                    toast.success("Team is deleted succesfully.",{position: "top-center"});
+
                 }
             } catch (error) {
                 console.log(error)
@@ -63,9 +65,11 @@ const Table = ({ columns, data, getTeams }) => {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
+                                                                        console.log(cell.value);
+
                                     if (cell.column.id === 'image')
                                         return <td {...cell.getCellProps()}>
-                                            <img src={cell.value} alt="" className="img-fluid" style={{ width: 120 }} />
+                                            <img src={`"../../../../../backend/images/${cell.value}`} alt="" className="img-fluid" style={{ width: 120 }} />
                                         </td>
                                     else
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
@@ -103,7 +107,7 @@ const ViewTeam = () => {
                 credentials: "include",
             })
             const data= await res.json();
-           setData(data)
+           setData(data);
             console.log(data);
             if(!res.status===200){
                 const error=new Error(res.error);

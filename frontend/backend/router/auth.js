@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const controller = require("../controller/controller");
 require("../db/conn");
 const User = require("../model/userSchema");
-const bookingList = require("../model/bookingSchema");
-const subscriberMail = require("../model/subscribeSchema");
 const adminList = require("../model/adminSchema");
+const bookingList = require("../model/bookingSchema");
+const store = require("../middleware/multer");
 const Teams = require("../model/teamSchema");
 const Works = require("../model/worksSchema");
 const reviewList = require("../model/reviewSchema");
@@ -42,85 +41,13 @@ router.post("/contact", async (req, res) => {
   } catch (error) {}
 });
 
-router.post("/", async (req, res) => {
-  try {
-    const { name, phone, carModel } = req.body;
-    if (!name || !phone || !carModel) {
-      console.log("error in book list");
-      return res.status(422).json({ error: "plss fileed the Booking Form" });
-    } else {
-      const booking = new bookingList({ name, phone, carModel });
-      booking.save();
-      res
-        .status(201)
-        .json({ message: "booking request send successfully, thank you" });
-    }
-  } catch (err) {
-    console.log("Booking problem");
-  }
-});
+router.post("/", controller.bookingRoute);
 
-router.post("/mail", async (req, res) => {
-  try {
-    const { subscribeMail } = req.body;
+router.post("/mail", controller.subscribeMailRoute);
 
-    if (!subscribeMail) {
-      console.log("fill it");
-      return res.status(422).json({ error: "plss fileed the email Form" });
-    }
+router.post("/login", controller.loginRoute);
 
-    const isMatch = await subscriberMail.findOne({
-      subscribeMail: subscribeMail,
-    });
-    if (isMatch) {
-      res
-        .status(422)
-        .json({ message: "your mail was already registered try new one" });
-    } else {
-      console.log(subscribeMail);
-      const subscriber = new subscriberMail({ subscribeMail });
-      subscriber.save();
-      res
-        .status(201)
-        .json({ message: "you hanve been subscribed successfully, thank you" });
-    }
-  } catch (err) {
-    console.log("Subscribe problem");
-  }
-});
-
-router.post("/login", async (req, res) => {
-  try {
-    let token;
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(401).json("please fill the credentials");
-    }
-    const isMatch = await adminList.findOne({
-      email: email,
-      password: password,
-    });
-    if (isMatch) {
-      token = await isMatch.generateAuthToken();
-      console.log(token);
-      res.cookie("jwtoken", token, {
-        expires: new Date(Date.now() + 155520000),
-        httpOnly: true,
-      });
-
-      return res.json("Admin login successfull");
-    } else {
-      return res.status(400).json("credential doesnot match");
-    }
-  } catch (error) {
-    console.log("error");
-  }
-});
-
-router.post("/logout", async (req, res) => {
-  res.clearCookie("jwtoken", { path: "/" });
-  res.status(200).json("Admin logged out");
-});
+router.post("/logout", controller.logoutRoute);
 
 router.get("/admin", authenticate, async (req, res) => {
   res.send(req.rootAdmin);
@@ -218,24 +145,7 @@ router.get("/getSubscriber", authenticate, async (req, res) => {
 });
 
 //to add teams
-router.post("/admin/add-team", async (req, res) => {
-  try {
-    const { image, name, description } = req.body;
-    if (!name || !description || !image) {
-      return res.status(401).json("please fill the credentials");
-    }
-    const team = await new Teams({
-      image: image,
-      name: name,
-      description: description,
-    });
-    await team.save();
-    return res.status(200).json(" Team successfull added!!");
-  } catch (error) {
-    console.log("error");
-  }
-});
-
+router.post("/admin/add-team", store.single("image"), controller.addTeamRoute);
 //getting teams list
 router.get("/getTeams", authenticate, async (req, res) => {
   try {
@@ -278,7 +188,7 @@ router.delete("/dltTeam/:id", authenticate, async (req, res) => {
 });
 
 //to add review
-router.post("/admin/add-review", async (req, res) => {
+router.post("/admin/add-review", authenticate, async (req, res) => {
   try {
     const { clientImage, carImage, customerName, customerReview } = req.body;
     if (!clientImage || !carImage || !customerName || !customerReview) {
@@ -323,23 +233,7 @@ router.delete("/dltReview/:id", authenticate, async (req, res) => {
 });
 
 //add works
-router.post("/admin/add-work", async (req, res) => {
-  try {
-    const { image, carName, description } = req.body;
-    if (!image || !carName || !description) {
-      return res.status(401).json("please fill the credentials");
-    }
-    const work = await new Works({
-      carName,
-      description,
-      image,
-    });
-    await work.save();
-    return res.status(200).json(" work successfull added!!");
-  } catch (error) {
-    console.log("error");
-  }
-});
+router.post("/admin/add-work", controller.addWorkRoute);
 
 //to view work
 router.get("/getWork", authenticate, async (req, res) => {
