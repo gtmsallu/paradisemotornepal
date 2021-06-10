@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { usePagination, useTable } from "react-table";
 import { toast } from "react-toastify";
-import imag from "../../../../images/image-1623258276017.png";
 const Table = ({ columns, data, getTeams }) => {
     const {
         getTableProps,
@@ -65,11 +64,11 @@ const Table = ({ columns, data, getTeams }) => {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
-                                    console.log(cell.value)
-
+                                    // console.log(cell.row.original.image)
+                                    // console.log(cell.column.id)
                                     if (cell.column.id === 'image')
                                         return <td {...cell.getCellProps()}>
-                                            <img src={cell.value} alt="" className="img-fluid" style={{ width: 120 }} />
+                                            <img src={`/assets/images/${cell.row.original.image}`} alt="" className="img-fluid" style={{ width: 120 }} />
                                         </td>
                                     else
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
@@ -104,9 +103,7 @@ const ViewTeam = () => {
         try {
             const res=await fetch('/getTeams',{
                 method:"GET",
-                headers:{ Accept: "application/json",
-                "Content-Type": "application/json",},
-                credentials: "include",
+               
             })
             const data= await res.json();
            setData(data);
@@ -115,7 +112,7 @@ const ViewTeam = () => {
                 throw error;
             }
             else{
-                console.log(data)
+                console.log("team displayed")
             }
         } catch (error) {
             throw error;
@@ -128,10 +125,10 @@ const ViewTeam = () => {
         <>
             <div className="col-lg-10 col-md-10 mx-auto">
                 <Table columns={columns} data={data} getTeams={getTeams} />
+             
 
             </div>
-
-           
+            
 
 
         </>

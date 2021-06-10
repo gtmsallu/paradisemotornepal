@@ -71,9 +71,12 @@ ViewWork();
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
-                                    if (cell.column.id === 'image')
+                                    // console.log(cell.row.original.carimage);
+                                    // console.log(cell.column.id)
+
+                                    if (cell.column.id === 'carimage')
                                         return <td {...cell.getCellProps()}>
-                                            <img src={cell.value} alt="" className="img-fluid" style={{width: 250}} />
+                                            <img src={`/assets/images/${cell.row.original.carimage}`} alt="" className="img-fluid" style={{width: 250}} />
                                              </td>
                                     else
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
@@ -102,8 +105,8 @@ ViewWork();
 
 const ViewWork = () => {
     const columns = [
+        { Header: 'Image', accessor: 'carimage' },
         { Header: 'Car Name', accessor: 'carName' },
-        { Header: 'Image', accessor: 'image' },
         { Header: 'Description', accessor: 'description' },
         { Header: 'Date', accessor: 'date' }
 
@@ -114,8 +117,7 @@ const [data, setData] = useState([])
         try {
             const res=await fetch('/getWork',{
                 method:"GET",
-                headers:{ Accept: "application/json",
-                "Content-Type": "application/json",},
+               
             })
             const data= await res.json();
            setData(data)

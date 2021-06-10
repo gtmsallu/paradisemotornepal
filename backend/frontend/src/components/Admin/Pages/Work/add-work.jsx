@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 
 const AddWork = () => {
 
 const history=useHistory();
-    const [image, setImage] = useState("");
+    const [carimage, setImage] = useState("");
     const [carName, setCarName] = useState("");
     const [description, setDescription] = useState("");
 
@@ -13,16 +14,21 @@ const history=useHistory();
     const addWork=async (e)=>{
         try {
             e.preventDefault();
+            const formData= new FormData();
+            formData.append("carimage",carimage);
+            formData.append("carName",carName);
+            formData.append("description",description);
+
 const res= await fetch("/admin/add-work",{
     method: "POST",
-    headers:{"content-type":"application/json"},
-    body: JSON.stringify({ image, carName, description}),
+    body: formData,
 })
 const data=await res.json();
 if(!data || res.status===401){
     window.alert("pls fill the data.");
 }else if(res.status===200){
-    window.alert("work added sucessfully.");
+    toast.success("work added sucessfully.",{position: "top-center"});
+
     history.push("/admin/view-work")
 
 
@@ -35,12 +41,12 @@ if(!data || res.status===401){
     return (
         <>
 
-            <form method="POST" className="col-8 m-auto mt-4">
+            <form method="POST" encType="multipart/form-data" className="col-8 m-auto mt-4">
                 <h5 className="fw-bold">Add Work</h5>
 
                 <div className="form-group mb-3">
                     <label htmlFor="inputImage">Image</label>
-                    <input class="form-control" type="file" id="inputImage" name="image" value={image} onChange={(e)=>{setImage(e.target.value)}} />
+                    <input class="form-control" type="file" id="inputImage" filename="carimage"  onChange={(e)=>{setImage(e.target.files[0])}} />
                 </div>
 
                 <div className="form-group mb-3">

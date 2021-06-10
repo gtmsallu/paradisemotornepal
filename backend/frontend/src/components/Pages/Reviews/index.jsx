@@ -12,7 +12,7 @@ const pageNextBtn = React.forwardRef(({ children, onClick }, ref) => (
 const ReviewsPage = () => {
 
   document.title = 'Reviews | Paradise Motors Nepal';
-const [data, setData] = useState({})
+const [data, setData] = useState([])
   const viewReview= async()=>{
     try {
         const res=await fetch('/getReview',{
@@ -21,9 +21,9 @@ const [data, setData] = useState({})
             "Content-Type": "application/json",},
             credentials: "include",
         })
-        const data= await res.json();
-       setData(data)
-        console.log(data);
+        const data1= await res.json();
+       setData(data1)
+        console.log(data1);
         if(!res.status===200){
             const error=new Error(res.error);
             throw error;

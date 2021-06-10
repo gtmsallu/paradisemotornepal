@@ -19,7 +19,6 @@ const formData= new FormData();
 
 const res=await fetch("/admin/add-team",{
    method:"POST",
-   
 body:formData,
 })
 const data=await res.json();

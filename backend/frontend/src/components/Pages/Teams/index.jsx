@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './teams.css';
-
-
+// import hh from "../../../images/image-1623258276017.png"
 const TeamsPage = () => {
   document.title = 'Our Team | Paradise Motors Nepal';
 
@@ -47,9 +46,11 @@ const TeamsPage = () => {
         <div className="row pt-3">
         
       { data.map((val,i)=> {
+        console.log(val.image)
           return( <div className="col-md-4 user-card text-center">
+
           <img
-            src="/assets/images/users/user-1.png"
+            src={`/assets/images/${val.image}`}
             className="m-auto" height="300"
           />
           <h5 className="mt-2 fw-bold">{val.name}</h5>

@@ -51,7 +51,7 @@ const history= useHistory();
                 </div>
                 <div classfile="form-group mb-3">
                     <label htmlFor="carImage">Car Image</label>
-                    <input class="form-control" type="file" id="carImage"  filename="carImage"  onChange={(e)=>{setCarImage(e.target.files[0])}} />
+                    <input class="form-control" type="file" id="carImage"  filename="carImage"   onChange={(e)=>{setCarImage(e.target.files[1])}} />
                 </div>
 
                 <div className="form-group mb-3">

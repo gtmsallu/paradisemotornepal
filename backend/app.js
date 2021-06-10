@@ -8,6 +8,7 @@ app.use(cookieParser());
 app.use(express.json());
 require("./db/conn");
 
+app.use(express.static("images"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

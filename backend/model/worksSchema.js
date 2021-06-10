@@ -4,7 +4,7 @@ const worksSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  image: {
+  carimage: {
     type: String,
     require: true,
   },

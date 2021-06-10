@@ -146,7 +146,7 @@ router.get("/getTeams", authenticate, async (req, res) => {
   try {
     const team = await Teams.find({});
 
-    res.send(team);
+    res.json(team);
   } catch (error) {
     console.log(error);
   }
@@ -183,7 +183,11 @@ router.delete("/dltTeam/:id", authenticate, async (req, res) => {
 });
 
 //to add review
-router.post("/admin/add-review", authenticate, controller.addReviewRoute);
+router.post(
+  "/admin/add-review",
+  store.single("images"),
+  controller.addReviewRoute
+);
 
 //to view review
 router.get("/getReview", authenticate, async (req, res) => {
@@ -213,7 +217,7 @@ router.delete("/dltReview/:id", authenticate, async (req, res) => {
 //add works
 router.post(
   "/admin/add-work",
-  store.array("image", 2),
+  store.single("carimage"),
   controller.addWorkRoute
 );
 

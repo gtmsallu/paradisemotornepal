@@ -87,14 +87,15 @@ exports.logoutRoute = async (req, res) => {
 
 exports.addWorkRoute = async (req, res) => {
   try {
-    const { image, carName, description } = req.body;
-    if (!image || !carName || !description) {
+    const { carName, description } = req.body;
+    const file = req.file.filename;
+    if (!file || !carName || !description) {
       return res.status(401).json("please fill the credentials");
     }
     const work = await new Works({
-      carName,
-      description,
-      image,
+      carName: carName,
+      description: description,
+      carimage: file,
     });
     await work.save();
     return res.status(200).json(" work successfull added!!");
@@ -106,13 +107,14 @@ exports.addWorkRoute = async (req, res) => {
 exports.addTeamRoute = async (req, res) => {
   try {
     const { name, description } = req.body;
-    const files = req.files.filename;
-    console.log(files);
-    if (!name || !description || !files) {
+    console.log(req.file.filename);
+
+    const file = req.file.filename;
+    if (!name || !description || !file) {
       return res.status(401).json("please fill the credentials");
     }
     const team = await new Teams({
-      image: files,
+      image: file,
       name: name,
       description: description,
     });
@@ -123,12 +125,12 @@ exports.addTeamRoute = async (req, res) => {
   }
 };
 
-exports.addReviewRoute = async (req, res) => {
+exports.addReviewRoute = async (req, res, next) => {
   try {
     const { customerName, customerReview } = req.body;
-    console.log(req.files);
-    const carimgfile = req.files.carImage;
-    const clientimgfile = req.files.clientImage;
+    console.log(req.file);
+    const carimgfile = req.file.carImage;
+    const clientimgfile = req.file.clientImage;
     if (!clientimgfile || !carimgfile || !customerName || !customerReview) {
       return res.status(401).json("please fill the credentials");
     }
