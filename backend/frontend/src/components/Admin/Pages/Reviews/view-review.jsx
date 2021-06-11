@@ -1,6 +1,7 @@
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 
 
@@ -38,9 +39,12 @@ const Table = ({ columns, data, viewReview }) => {
                 })
                 const data= await res.json();
                 if(!data || res.status===401){
-                    window.alert("cant be delete");
+                    toast.warn("cant be deletey.",{position: "top-center"});
+
+                    
                 }else{
-                    window.alert("Review is deleted succesfully")
+                    toast.success("Review is deleted succesfully.",{position: "top-center"});
+
                 }
             } catch (error) {
                 console.log(error)
@@ -71,11 +75,18 @@ const Table = ({ columns, data, viewReview }) => {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
-                                    if (cell.column.id === 'image')
+                                    // console.log(cell.row.original)
+
+                                    // console.log(cell.row.original.carImage)
+                                    if (cell.column.id === 'carImage')
                                         return <td {...cell.getCellProps()}>
-                                            <img src={cell.value} alt="" className="img-fluid" style={{width: 250}} />
+                                            <img src={`/assets/images/${cell.row.original.carImage}`} alt="" className="img-fluid" style={{width: 250}} />
                                              </td>
-                                    else
+                                    else if(cell.column.id === 'clientImage')
+                                    return <td {...cell.getCellProps()}>
+                                    <img src={`/assets/images/${cell.row.original.clientImage}`} alt="" className="img-fluid" style={{width: 250}} />
+                                     </td>
+                                     else
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
                                 
@@ -117,8 +128,7 @@ const viewReview= async()=>{
     try {
         const res=await fetch('/getReview',{
             method:"GET",
-            headers:{ Accept: "application/json",
-            "Content-Type": "application/json",},
+            
             credentials: "include",
         })
         const data= await res.json();

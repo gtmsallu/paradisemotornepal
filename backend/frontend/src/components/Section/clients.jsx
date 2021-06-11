@@ -74,9 +74,29 @@ useEffect(() => {
                   <h4 className="mt-2">KIA Sportage</h4>
                   <p>Best in class coating and a healthy work</p>
                 </div>
+                  );
+                })}
+              </Slider>
+
+
+{/*remove comment to make slider dyanamic */}
+
+{/* <Slider {...sliderSettings} className="mt-4">
+{data.map((val,i) => {
+  return (
+<div className="col-lg-3">
+                  <img
+                    src={`/assets/images/${val.clientImage}`}
+                    className="rounded-circle m-auto" height="160"
+                  />
+                  <h4 className="mt-2">{val.clientName}</h4>
+                  <p>{val.customerReview}</p>
+                </div>
+
+                
               );
             })}
-          </Slider>
+          </Slider> */}
 
           <Link to="/reviews" class="btn-link fw-bold">
             Read reviews from our Clients

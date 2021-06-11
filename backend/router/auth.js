@@ -185,7 +185,10 @@ router.delete("/dltTeam/:id", authenticate, async (req, res) => {
 //to add review
 router.post(
   "/admin/add-review",
-  store.single("images"),
+  store.fields([
+    { name: "carImage", maxCount: 1 },
+    { name: "clientImage", maxCount: 1 },
+  ]),
   controller.addReviewRoute
 );
 

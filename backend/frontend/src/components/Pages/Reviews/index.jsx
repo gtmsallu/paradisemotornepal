@@ -45,12 +45,12 @@ useEffect(() => {
       {data.map((review, i) => {
         return (
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <img src="/assets/images/users/user-1.png" style={{ height: 190, width: 190, objectFit: 'cover' }} height="200" className="rounded-circle" alt="" />
+            <img src={`/assets/images/${review.clientImage}`} style={{ height: 190, width: 190, objectFit: 'cover' }} height="200" className="rounded-circle" alt="" />
             <div>
               <h4>{review.customerName}</h4>
               <p>{review.customerReview}</p>
             </div>
-            <img src="/assets/images/image-3.png" style={{ height: 200, width: 300 }} alt="" />
+            <img src={`/assets/images/${review.carImage}`} style={{ height: 200, width: 300 }} alt="" />
           </div>
         );
       })}
