@@ -50,7 +50,7 @@ const Header = () => {
     }else{
       console.log("You have been loged in")
       dispatch({type:"USER", payload: true})
-      history.push("/");
+      history.push("/admin");
       toast.success("You have been loged in",{position: "top-center"})
 
     }
