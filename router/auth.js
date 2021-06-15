@@ -12,9 +12,6 @@ const Teams = require("../model/teamSchema");
 const Works = require("../model/worksSchema");
 const reviewList = require("../model/reviewSchema");
 const authenticate = require("../middleware/authenticate");
-router.get("/", (req, res) => {
-  res.send("hello world");
-});
 
 router.post("/contact", async (req, res) => {
   try {
