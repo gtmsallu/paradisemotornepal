@@ -6,10 +6,11 @@ import React, { useEffect, useState } from "react";
 const Clients = () => {
   const sliderSettings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
@@ -23,6 +24,7 @@ const Clients = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
+          initialSlide: 2,
         },
       },
     ],
@@ -30,7 +32,7 @@ const Clients = () => {
 
 
 
-  const [data, setData] = useState({})
+  const [data, setData] = useState([])
   const viewReviewss= async()=>{
     try {
         const res=await fetch('/getReview',{
@@ -63,7 +65,7 @@ useEffect(() => {
         <div class="container py-4 text-center">
           <h2 class="text-color-1 fw-bold mb-3">Happy Clients</h2>
 
-          <Slider {...sliderSettings} className="mt-4">
+          {/* <Slider {...sliderSettings} className="mt-4">
             {[0, 1, 2, 6, 7].map((i) => {
               return (
                 <div className="col-lg-3">
@@ -77,27 +79,34 @@ useEffect(() => {
                 </div>
                   );
                 })}
-              </Slider>
+              </Slider> */}
 
 {/* 
 {/*remove comment to make slider dyanamic */}
+<div className="row">
+<Slider {...sliderSettings} className="mt-4">
+{data.map((val,j) => {
 
-{/* <Slider {...sliderSettings} className="mt-4">
-{data.map((val,i) => {
   return (
+   
+
 <div className="col-lg-3">
+
+
                   <img
                     src={`/assets/images/${val.clientImage}`}
                     className="rounded-circle m-auto" height="160"
                   />
                   <h4 className="mt-2">{val.clientName}</h4>
-                  <p>{val.customerReview}</p>
-                </div>
+                  <p >{val.customerReview}</p>
+                  </div>
 
                 
               );
-            })}
-          </Slider> */}
+  })}
+            </Slider>
+</div>
+
 
            
           

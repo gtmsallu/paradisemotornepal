@@ -132,7 +132,7 @@ exports.addReviewRoute = async (req, res) => {
     // console.log(req.files.carImage[0].filename);
     const carimgfile = req.files.carImage[0].filename;
     const clientimgfile = req.files.clientImage[0].filename;
-    if (!carimgfile || !clientimgfile || !customerName || !customerReview) {
+    if (!customerName || !customerReview) {
       return res.status(401).json("please fill the credentials");
     }
     const review = await new reviewList({

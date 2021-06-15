@@ -15,6 +15,16 @@ app.use(bodyParser.json());
 app.use(require("./router/auth"));
 const PORT = process.env.PORT || 5000;
 
+//heroku
+
+// "dev": "nodemon app.js",
+//     "frontend": "cd frontend && npm start",
+//"start": "concurrently \"npm run dev\" \"npm run frontend\""
+
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("frontend/build"));
+}
+
 app.listen(PORT, () => {
   console.log(`backend is run on server ${PORT}`);
 });
