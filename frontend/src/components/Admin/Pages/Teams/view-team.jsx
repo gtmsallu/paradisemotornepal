@@ -21,13 +21,13 @@ const Table = ({ columns, data, getTeams }) => {
 
 
 
-        const editTeam=async(id)=>{
-try {
+//         const editTeam=async(id)=>{
+// try {
     
-} catch (error) {
-    console.log(error);
-}
-        }
+// } catch (error) {
+//     console.log(error);
+// }
+//         }
 
         const dltTeam= async (id)=>{
             try {
@@ -83,7 +83,7 @@ try {
                                         return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                                 })}
 
-                                <td><button className="btn btn-sm float-end me-5 btn-rounded btn-dark" onClick={()=>editTeam(row.original._id)}>Edit  </button></td>
+                                {/* <td><button className="btn btn-sm float-end me-5 btn-rounded btn-dark" onClick={()=>editTeam(row.original._id)}>Edit  </button></td> */}
                                 <td><button className="btn btn-sm float-end me-5 btn-rounded btn-danger" onClick={()=>dltTeam(row.original._id)}>Delete</button></td>
 
                             </tr>
