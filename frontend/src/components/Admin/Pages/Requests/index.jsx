@@ -134,7 +134,7 @@ const PullRequest= async()=>{
             throw error;
         }
         else{
-            console.log(data)
+            console.log("no data")
         }
     } catch (error) {
         throw error;
