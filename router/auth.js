@@ -48,9 +48,9 @@ router.post("/login", controller.loginRoute);
 
 router.post("/logout", controller.logoutRoute);
 
-router.get("/admin", authenticate, async (req, res) => {
-  res.json(req.rootAdmin);
-});
+// router.get("/admin", authenticate, async (req, res) => {
+//   res.json(req.rootAdmin);
+// });
 
 //getting data for admin profile
 router.get("/getadmindata", authenticate, async (req, res) => {

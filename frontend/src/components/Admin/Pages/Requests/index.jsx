@@ -10,7 +10,7 @@ const history=useHistory();
 
 const adminPage=async()=>{
     try {
-        const res = await fetch("/admin", {
+        const res = await fetch("/getadmindata", {
           method: "GET",
           headers: {
             Accept: "application/json",
