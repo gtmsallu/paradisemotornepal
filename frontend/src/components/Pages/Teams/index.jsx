@@ -46,7 +46,6 @@ const TeamsPage = () => {
         <div className="row pt-3">
         
       { data.map((val,i)=> {
-        console.log(val.image)
           return( <div className="col-md-4 user-card text-center">
 
           <img
