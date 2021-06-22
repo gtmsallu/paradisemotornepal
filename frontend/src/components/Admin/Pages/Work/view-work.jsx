@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 import { toast } from "react-toastify";
+import endpoints from "../../../../constants/endpoints";
 
 
 
@@ -31,11 +33,10 @@ const Table = ({ columns, data, ViewWork }) => {
 
         const dltWorks=async(id)=>{
 try {
-    const res=await fetch("/dltWorks/"+id,{
-        method:"DELETE",
-        headers:{"content-type":"application/json"},
-    })
-    const data= await res.json();
+    
+    const res = await axios.delete(endpoints.DLTWORKS+"/"+id);
+
+    const data= res.data;
     if(!data || res.status===401){
         toast.warn("Cant be delete.",{position: "top-center"});
 
@@ -115,12 +116,10 @@ const ViewWork = () => {
 const [data, setData] = useState([])
     const ViewWork= async()=>{
         try {
-            const res=await fetch('/getWork',{
-                method:"GET",
-               
-            })
-            const data= await res.json();
-           setData(data)
+           
+            const res = await axios.get(endpoints.GETWORKS);
+            const data=  res.data;
+           setData(data);
             console.log(data);
             if(!res.status===200){
                 const error=new Error(res.error);

@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { usePagination, useTable } from "react-table";
 import { toast } from "react-toastify";
+import endpoints from "../../../../constants/endpoints";
 const Table = ({ columns, data, getTeams }) => {
     const {
         getTableProps,
@@ -31,11 +33,11 @@ const Table = ({ columns, data, getTeams }) => {
 
         const dltTeam= async (id)=>{
             try {
-                const res= await fetch("/dltTeam/"+id,{
-                    method:"DELETE",
-                    headers:{"content-type":"application/json"},
-                })
-                const data= await res.json();
+                
+
+                const res = await axios.delete(endpoints.DLTTEAM+"/"+id);
+
+                const data=  res.data;
                 if(!data || res.status===401){
                     toast.warn("cant be delete.",{position: "top-center"});
 
@@ -111,25 +113,17 @@ const ViewTeam = () => {
     const [data, setData] = useState([]);
 
     const getTeams= async()=>{
-        try {
-            const res=await fetch('/getTeams',{
-                method:"GET",
-               
-            })
-            const data= await res.json();
-           setData(data);
-            if(!res.status===200){
-                const error=new Error(res.error);
+       
+        const res = await axios.get(endpoints.GETTEAMS);
+           setData(res.data);
+            if(!data.status===200){
+                const error=new Error(data.error);
                 throw error;
             }
             else{
                 console.log("team displayed")
             }
-        } catch (error) {
-            throw error;
         }
-    }
-    
     
        
     return (

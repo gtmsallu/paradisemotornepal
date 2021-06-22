@@ -12,6 +12,7 @@ const Teams = require("../model/teamSchema");
 const Works = require("../model/worksSchema");
 const reviewList = require("../model/reviewSchema");
 const authenticate = require("../middleware/authenticate");
+// const endpoints = require("../frontend/src/constants/endpoints");
 
 router.post("/contact", async (req, res) => {
   try {
@@ -134,7 +135,7 @@ router.get("/getMessages", authenticate, async (req, res) => {
 });
 
 //to get subscriber
-router.get("/getSubscriber", authenticate, controller.getSubscribeRoute);
+router.get("getSubscriber", authenticate, controller.getSubscribeRoute);
 
 //to add teams
 router.post("/admin/add-team", store.single("image"), controller.addTeamRoute);

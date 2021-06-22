@@ -2,6 +2,8 @@ import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import endpoints from "../../../../constants/endpoints";
+import axios from "axios";
 
 
 
@@ -33,11 +35,9 @@ const Table = ({ columns, data, viewReview }) => {
 
         const dltReview= async (id)=>{
             try {
-                const res= await fetch("/dltReview/"+id,{
-                    method:"DELETE",
-                    headers:{"content-type":"application/json"},
-                })
-                const data= await res.json();
+                const res = await axios.delete(endpoints.DLTREVIEW+"/"+id);
+
+                const data= await res.data;
                 if(!data || res.status===401){
                     toast.warn("cant be deletey.",{position: "top-center"});
 
@@ -126,13 +126,11 @@ const ViewReview = () => {
 
 const viewReview= async()=>{
     try {
-        const res=await fetch('/getReview',{
-            method:"GET",
-            
-            credentials: "include",
-        })
-        const data= await res.json();
-       setData(data)
+      
+        const res = await axios.get(endpoints.GETREVIEW);
+
+        const data= await res.data;
+       setData(data);
         if(!res.status===200){
             const error=new Error(res.error);
             throw error;

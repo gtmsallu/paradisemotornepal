@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
+import endpoints from "../../../constants/endpoints";
 
 
 const pagePrevBtn = React.forwardRef(({ children, onClick }, ref) => (
@@ -15,15 +17,9 @@ const ReviewsPage = () => {
 const [data, setData] = useState([])
   const viewReview= async()=>{
     try {
-        const res=await fetch('/getReview',{
-            method:"GET",
-            headers:{ Accept: "application/json",
-            "Content-Type": "application/json",},
-            credentials: "include",
-        })
-        const data1= await res.json();
-       setData(data1)
-        console.log(data1);
+      const res = await axios.get(endpoints.GETREVIEW);
+
+       setData(res.data)
         if(!res.status===200){
             const error=new Error(res.error);
             throw error;
