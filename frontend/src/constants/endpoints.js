@@ -4,6 +4,9 @@ export default {
   GETSUBSCRIBERS: "/getSubscriber",
   GETREVIEW: "/getReview",
   GETWORKS: "/getWork",
+  GETBOOKINGLIST: "/getBookingList",
+  GETMESSAGES: "/getMessages",
+  GETADMINDATA: "/getadmindata",
 
   //for posting data
   ADDTEAM: "/admin/add-team",
@@ -14,4 +17,9 @@ export default {
   DLTTEAM: "/dltTeam",
   DLTWORKS: "/dltWorks",
   DLTREVIEW: "/dltReview",
+  DLTSUBSCRIBER: "/dltSubscriber",
+
+  //for updating data
+  UPDATEPASSWORD: "/changePassword",
+  UPDATEMAIL: "/changeMail",
 };
