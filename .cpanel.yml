@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/khussico/public_html/
+    - export DEPLOYPATH=/home/khussico/test.paradisemotorsnepal.com/
     - /bin/cp * $DEPLOYPATH
