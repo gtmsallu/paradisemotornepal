@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import {  useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import endpoints from "../../../../constants/endpoints";
 
 const AddReview = () => {
 const history= useHistory();
@@ -19,11 +21,11 @@ const history= useHistory();
             formdata.append("customerName", customerName);
             formdata.append("customerReview", customerReview);
 
-            const res= await fetch("/admin/add-review",{
-                method: "POST",
-                body: formdata,
-            })
-            const data=await res.json();
+           
+            const res = await axios.post(endpoints.ADDREVIEW, formdata);
+
+            const data= res.data;
+            console.log(data)
             
             if(!data || res.status===401){
                 toast.error("pls fill the data.",{position: "top-center"});
@@ -32,6 +34,10 @@ const history= useHistory();
                 toast.success("Review added sucessfully.",{position: "top-center"});
 
                 history.push("/admin/view-review")
+
+            }else if(res.status===500){
+                toast.error("Something error in data.",{position: "top-center"});
+
 
             }
         } catch (error) {

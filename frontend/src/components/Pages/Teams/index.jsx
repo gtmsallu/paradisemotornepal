@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './teams.css';
+import axios from "axios";
+import endpoints from "../../../constants/endpoints";
 // import hh from "../../../images/image-1623258276017.png"
 const TeamsPage = () => {
   document.title = 'Our Team | Paradise Motors Nepal';
@@ -9,16 +11,8 @@ const TeamsPage = () => {
     
     const getTeamData=async ()=>{
       try {
-        const res=await fetch('/getTeams',{
-            method:"GET",
-            headers:{ Accept: "application/json",
-            "Content-Type": "application/json",},
-        })
-        const data1= await res.json();
-        setData(data1);
-        if(!data || !res.status===200){
-            console.log("error")
-        }
+        const res = await axios.get(endpoints.GETTEAMS);
+        setData(res.data);
      
     } catch (error) {
         throw error;

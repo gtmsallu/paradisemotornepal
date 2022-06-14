@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import endpoints from "../../../../constants/endpoints";
 
 const AddTeam = () => {
     const history=useHistory();
@@ -14,14 +16,10 @@ const formData= new FormData();
     formData.append("image", image);
     formData.append("name", name);
     formData.append("description", description);
+const res = await axios.post(endpoints.ADDTEAM, formData);
+console.log(res);
 
-
-
-const res=await fetch("/admin/add-team",{
-   method:"POST",
-body:formData,
-})
-const data=await res.json();
+const data= res.data;
 if(!data || res.status===401){
     console.log("plse fill data");
     toast.warn("plse fill data",{position: "top-center"});

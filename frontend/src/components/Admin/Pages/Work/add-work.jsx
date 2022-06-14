@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
+import endpoints from "../../../../constants/endpoints";
 
 const AddWork = () => {
 
@@ -19,11 +21,10 @@ const history=useHistory();
             formData.append("carName",carName);
             formData.append("description",description);
 
-const res= await fetch("/admin/add-work",{
-    method: "POST",
-    body: formData,
-})
-const data=await res.json();
+
+const res = await axios.post(endpoints.ADDWORK, formData);
+
+const data=await res.data;
 if(!data || res.status===401){
     window.alert("pls fill the data.");
 }else if(res.status===200){

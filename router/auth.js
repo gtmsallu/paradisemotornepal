@@ -12,6 +12,7 @@ const Teams = require("../model/teamSchema");
 const Works = require("../model/worksSchema");
 const reviewList = require("../model/reviewSchema");
 const authenticate = require("../middleware/authenticate");
+const endpoints = require("../constants/endpoints");
 
 router.post("/contact", async (req, res) => {
   try {
@@ -48,17 +49,13 @@ router.post("/login", controller.loginRoute);
 
 router.post("/logout", controller.logoutRoute);
 
-// router.get("/admin", authenticate, async (req, res) => {
-//   res.json(req.rootAdmin);
-// });
-
 //getting data for admin profile
-router.get("/getadmindata", authenticate, async (req, res) => {
+router.get(endpoints.GETADMINDATA, authenticate, async (req, res) => {
   res.json(req.rootAdmin);
 });
 
 //changing mail for admin
-router.put("/changeMail", authenticate, async (req, res) => {
+router.put(endpoints.UPDATEMAIL, authenticate, async (req, res) => {
   try {
     const { oldEmail, newEmail, reEmail } = req.body;
     if (!newEmail || !reEmail) {
@@ -85,7 +82,7 @@ router.put("/changeMail", authenticate, async (req, res) => {
 });
 
 //changing password for admin
-router.put("/changePassword", authenticate, async (req, res) => {
+router.put(endpoints.UPDATEPASSWORD, authenticate, async (req, res) => {
   try {
     const { oldPassword, newPassword, cPassword } = req.body;
     if (!newPassword || !cPassword) {
@@ -112,7 +109,7 @@ router.put("/changePassword", authenticate, async (req, res) => {
 });
 
 //get booking list
-router.get("/getBookingList", authenticate, async (req, res) => {
+router.get(endpoints.GETBOOKINGLIST, authenticate, async (req, res) => {
   try {
     const bookinglist = await bookingList.find({});
 
@@ -123,7 +120,7 @@ router.get("/getBookingList", authenticate, async (req, res) => {
 });
 
 //getting message list
-router.get("/getMessages", authenticate, async (req, res) => {
+router.get(endpoints.GETMESSAGES, authenticate, async (req, res) => {
   try {
     const messagelist = await User.find({});
 
@@ -134,10 +131,14 @@ router.get("/getMessages", authenticate, async (req, res) => {
 });
 
 //to get subscriber
-router.get("/getSubscriber", authenticate, controller.getSubscribeRoute);
+router.get(
+  endpoints.GETSUBSCRIBERS,
+  authenticate,
+  controller.getSubscribeRoute
+);
 
 //to add teams
-router.post("/admin/add-team", store.single("image"), controller.addTeamRoute);
+router.post(endpoints.ADDTEAM, store.single("image"), controller.addTeamRoute);
 //getting teams list
 router.get("/getTeams", async (req, res) => {
   try {
@@ -150,22 +151,26 @@ router.get("/getTeams", async (req, res) => {
 });
 
 //deleting subscriber
-router.delete("/deleteSubscriber/:id", authenticate, async (req, res) => {
-  try {
-    console.log(req.params.id);
-    const deleteMail = await subscriberMail.deleteOne({ _id: req.params.id });
-    if (deleteMail) {
-      res.status(200).json("deleted");
-    } else {
-      console.log("error");
+router.delete(
+  endpoints.DLTSUBSCRIBER + "/:id",
+  authenticate,
+  async (req, res) => {
+    try {
+      console.log(req.params.id);
+      const deleteMail = await subscriberMail.deleteOne({ _id: req.params.id });
+      if (deleteMail) {
+        res.status(200).json("deleted");
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
   }
-});
+);
 
 // deleting teams
-router.delete("/dltTeam/:id", authenticate, async (req, res) => {
+router.delete(endpoints.DLTTEAM + "/:id", authenticate, async (req, res) => {
   try {
     console.log(req.params.id);
     const deleteTeam = await Teams.deleteOne({ _id: req.params.id });
@@ -181,7 +186,7 @@ router.delete("/dltTeam/:id", authenticate, async (req, res) => {
 
 //to add review
 router.post(
-  "/admin/add-review",
+  endpoints.ADDREVIEW,
   store.fields([
     { name: "carImage", maxCount: 1 },
     { name: "clientImage", maxCount: 1 },
@@ -190,7 +195,7 @@ router.post(
 );
 
 //to view review
-router.get("/getReview", async (req, res) => {
+router.get(endpoints.GETREVIEW, async (req, res) => {
   try {
     const reviewlist = await reviewList.find({});
 
@@ -201,7 +206,7 @@ router.get("/getReview", async (req, res) => {
 });
 
 //delete review
-router.delete("/dltReview/:id", authenticate, async (req, res) => {
+router.delete(endpoints.DLTREVIEW + "/:id", authenticate, async (req, res) => {
   try {
     const reviewlist = await reviewList.deleteOne({ _id: req.params.id });
     if (reviewList) {
@@ -216,13 +221,13 @@ router.delete("/dltReview/:id", authenticate, async (req, res) => {
 
 //add works
 router.post(
-  "/admin/add-work",
+  endpoints.ADDWORK,
   store.single("carimage"),
   controller.addWorkRoute
 );
 
 //to view work
-router.get("/getWork", async (req, res) => {
+router.get(endpoints.GETWORKS, async (req, res) => {
   try {
     const works = await Works.find({});
 
@@ -233,7 +238,7 @@ router.get("/getWork", async (req, res) => {
 });
 
 //delete work
-router.delete("/dltWorks/:id", authenticate, async (req, res) => {
+router.delete(endpoints.DLTWORKS + "/:id", authenticate, async (req, res) => {
   try {
     const works = await Works.deleteOne({ _id: req.params.id });
     if (works) {

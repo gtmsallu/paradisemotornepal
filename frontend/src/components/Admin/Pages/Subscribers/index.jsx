@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Pagination } from "react-bootstrap";
 import { usePagination, useTable } from "react-table";
 import { toast } from 'react-toastify';
+import endpoints from "../../../../constants/endpoints";
 
 
 const Table = ({ columns, data, getSubscribers }) =>
@@ -40,13 +42,11 @@ const Table = ({ columns, data, getSubscribers }) =>
                 
             });
             const data=await res.json();
-            console.log(data);
             if(!res.status===200 || !data){
                 toast.warn("cant be delete",{position: "top-center"});
 
             }
             else{
-                console.log(data);
                 toast.success("Mail has been deleted",{position: "top-center"});
 
 
@@ -125,14 +125,10 @@ const Subscribers = () => {
 
     const getSubscribers= async()=>{
         try {
-            const res=await fetch('/getSubscriber',{
-                method:"GET",
-                headers:{ Accept: "application/json",
-                "Content-Type": "application/json",},
-                credentials: "include",
-            })
-            const data= await res.json();
-           setData(data);
+            const res = await axios.get(endpoints.GETSUBSCRIBERS);
+
+           
+           setData(res.data);
             
             if(!res.status===200){
                 const error=new Error(res.error);
