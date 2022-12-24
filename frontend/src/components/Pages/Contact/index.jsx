@@ -77,9 +77,9 @@ const postMessage=async(e)=>{
 
 
             <div className="social_link">
-              <a href="#/">
+              <a href="https://www.facebook.com/paradisemotornepal">
                 <i class="fab fa-facebook-square"></i></a>
-              <a href="#/">
+              <a href="https://www.instagram.com/paradisemotorsnepal">
                 <i class="fab fa-instagram"></i>
               </a>
             </div>
